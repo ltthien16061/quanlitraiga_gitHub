@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:body>
+        <ui:composition>
+            <nav class="navbar navbar-expand static-top" id="header">
+                <a class="mr-1 header-name-containt" href="index.html">
+                    <img src="asset/images/logo1.png" width="50" /> <span class="header-name">Management of Poultry farms</span> 
+                </a>
+                <button class="btn btn-link btn-sm text-white order-1 order-sm-0" href="#" id="activeSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- Navbar Search -->
+                <h:form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                    <div class="input-group">
+                        <h:inputText  class="form-control" a:placeholder="Search for..." ></h:inputText>
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </h:form>
+                <!-- Navbar -->
+                <ul class="navbar-nav ml-auto ml-md-0">
+                    <!--Avatar here-->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user-circle fa-fw"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="#">Danh Sách Tài khoảng</a>
+                            <a class="dropdown-item" href="#">Quy Định Chung</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Đăng Xuất</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Xác Nhận Thoát ?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Việc Đăng Xuất Khỏi Trang Web Sẽ Xóa Phiên Làm Việc Của Bạn, Tránh Việc Trang Web Bị Kẻ Xấu Tấn Công!!!</div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                            <a class="btn btn-primary" href="login.html">Thoát</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:composition>      
+    </h:body>
+</html>
+

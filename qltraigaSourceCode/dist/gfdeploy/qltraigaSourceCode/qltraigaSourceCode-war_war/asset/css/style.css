@@ -1,0 +1,125 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 15, 2019, 12:43:44 AM
+    Author     : Baotiso Laptop
+*/
+.hidden{
+    display: none;
+}
+.show{
+    display: block
+}
+.data-Table thead tr{
+    background-color: black;
+    color: white
+}
+.textleft{
+    text-align: left;
+}
+.textright{
+    text-align: right;
+}
+.textcenter{
+    text-align: center;
+}
+.close-modal{
+    outline: none !important
+}
+.edit-btn{
+     background-image: url('../images/button/edit-btn.png');
+}
+.under-line{
+    text-decoration: underline
+}
+#message-containt ul{
+    padding-left: 0;
+}
+#edit-modalTitle{
+    font-size: 18px;
+    font-style: italic;
+    margin-bottom: 0;
+    line-height: 2;
+}
+.delay {
+  -animation-delay: 2s;
+  -webkit-animation-delay: 2s;
+  -moz-animation-delay: 2s;
+}
+.form-label-group ul{
+    padding-left: 0
+}
+/*start header*/
+.navbar.navbar-expand.static-top{
+    background: linear-gradient(30deg,#fbff3e7d, #b7c336, #f5a765) !important;
+}
+.header-name{
+    color: #6b1313;
+}
+#header{
+    margin-bottom: 0px !important;
+}
+@media only screen and (max-width: 425px) {
+    .header-name{
+        display: none;
+    }
+    .header-name-containt:after {
+        content: 'MOPF';
+        color: #3D1E01;
+        font-weight: 700;     
+    }
+}
+#activeSidebar{
+    background: #123;
+    margin-left: 1%
+}
+/*end header*/
+
+/*start sidebar*/
+.sidebar.navbar-nav{
+/*    background: linear-gradient(200deg,#fbff3e7d, #b7c336, #f5a765);*/
+}
+ul.sidebar.navbar-nav li a{
+    
+}
+ul.sidebar.navbar-nav li a:hover{
+   
+}
+h6.dropdown-header{
+    
+}
+/*end sidebar*/
+
+/* start footer*/
+.sticky-footer{
+    width: 100% !important;
+/*    background: linear-gradient(200deg,#fbff3e7d, #b7c336, #f5a765) !important;
+    color: #3D1E01;*/
+    background: #252525 !important;
+    color: white;
+}
+/* end footer*/
+
+/*chicken-supplier*/
+@media only screen and (min-width: 576px) {
+    .myform div label{
+        text-align: right
+    } 
+}
+.small-title{
+    font-size: 12px;
+    font-style: italic;
+}
+/*end chicken-supplier*/
+
+/* login */
+.bg-login{
+    background-image: url(../images/login-bg2.png);
+}
+/* end login */
+
+
+
