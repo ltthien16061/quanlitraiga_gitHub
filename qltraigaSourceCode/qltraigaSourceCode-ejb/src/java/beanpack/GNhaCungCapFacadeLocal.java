@@ -29,4 +29,6 @@ public interface GNhaCungCapFacadeLocal {
 
     int count();
     
+    public List<GNhaCungCap> showAllwithNotDel();
+    
 }

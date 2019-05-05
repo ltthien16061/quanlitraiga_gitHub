@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -45,8 +47,9 @@ public class GDotNhapGaGiong implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    //Custom by Thien
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "maso")
     private Integer maso;
     @Basic(optional = false)
@@ -64,7 +67,8 @@ public class GDotNhapGaGiong implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "thoigiannhap")
-    private int thoigiannhap;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date thoigiannhap;
     @Column(name = "thoigiancapnhat")
     @Temporal(TemporalType.TIMESTAMP)
     private Date thoigiancapnhat;
@@ -85,7 +89,7 @@ public class GDotNhapGaGiong implements Serializable {
         this.maso = maso;
     }
 
-    public GDotNhapGaGiong(Integer maso, int dotuoi, int soluongnhap, int soluongconlai, int thoigiannhap, boolean xoa) {
+    public GDotNhapGaGiong(Integer maso, int dotuoi, int soluongnhap, int soluongconlai, Date thoigiannhap, boolean xoa) {
         this.maso = maso;
         this.dotuoi = dotuoi;
         this.soluongnhap = soluongnhap;
@@ -126,11 +130,11 @@ public class GDotNhapGaGiong implements Serializable {
         this.soluongconlai = soluongconlai;
     }
 
-    public int getThoigiannhap() {
+    public Date getThoigiannhap() {
         return thoigiannhap;
     }
 
-    public void setThoigiannhap(int thoigiannhap) {
+    public void setThoigiannhap(Date thoigiannhap) {
         this.thoigiannhap = thoigiannhap;
     }
 

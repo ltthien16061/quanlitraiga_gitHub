@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,13 @@ public class GNhaCungCapFacade extends AbstractFacade<GNhaCungCap> implements GN
 
     public GNhaCungCapFacade() {
         super(GNhaCungCap.class);
+    }
+
+    @Override
+    public List<GNhaCungCap> showAllwithNotDel() {
+        Query query = em.createNamedQuery("GNhaCungCap.findByXoa");
+        query.setParameter("xoa", false);
+        return query.getResultList();
     }
     
 }
