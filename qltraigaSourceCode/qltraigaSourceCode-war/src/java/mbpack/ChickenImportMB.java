@@ -57,21 +57,13 @@ public class ChickenImportMB extends CustomValidator implements Serializable {
         listChickenSupplier = gDotNhapGaGiongFacade.showChickenImportByDel();
         return listChickenSupplier;
     }
-    //show all
-    public List<GNhaCungCap> showAllChickenSupplier() {
-        List<GNhaCungCap> listChickenSupplier = new ArrayList<GNhaCungCap>();
-        listChickenSupplier = gNhaCungCapFacade.showAllwithNotDel();
-        return listChickenSupplier;
-    }
-
-    //Delete
-        //get id for delete
-        public void getIdForDel(int id, int supID){
-            maso = id;
-            macc = supID;
-        }
-        
-    //Add
+    //Add        
+        //show all supplier for add
+        public List<GNhaCungCap> showAllChickenSupplier() {
+            List<GNhaCungCap> listChickenSupplier = new ArrayList<GNhaCungCap>();
+            listChickenSupplier = gNhaCungCapFacade.showAllwithNotDel();
+            return listChickenSupplier;
+        }        
         //get id for add
         public void getIdForAdd(int supID){
             macc = supID;
@@ -147,35 +139,40 @@ public class ChickenImportMB extends CustomValidator implements Serializable {
         return "chicken-import";
     }    
        
-    //delete   
-    public String delete() {
-        try{
-            tuoi = gDotNhapGaGiongFacade.find(maso).getDotuoi();
-            soluong = gDotNhapGaGiongFacade.find(maso).getSoluongnhap();
-            conlai = gDotNhapGaGiongFacade.find(maso).getSoluongconlai();
-            thoigiannhap = gDotNhapGaGiongFacade.find(maso).getThoigiannhap();
-            thoigiancapnhat = gDotNhapGaGiongFacade.find(maso).getThoigiancapnhat();
-            xoa = true;
-            //Set forgein key
-            GDotNhapGaGiong dotnhap = gDotNhapGaGiongFacade.find(maso);
-            GNhaCungCap nhacungcap = gNhaCungCapFacade.find(macc);            
-            dotnhap.setMasocc(nhacungcap);
-            
-            dotnhap.setDotuoi(tuoi);
-            dotnhap.setSoluongnhap(soluong);
-            dotnhap.setSoluongconlai(conlai);
-            dotnhap.setThoigiannhap(thoigiannhap);
-            dotnhap.setThoigiancapnhat(thoigiancapnhat);
-            dotnhap.setXoa(xoa);
-            gDotNhapGaGiongFacade.edit(dotnhap);
-            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Xóa Thành Công", null);
-            FacesContext.getCurrentInstance().addMessage(null, fMsg);
-        }catch(Exception ex){
-            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Xóa", null);
-            FacesContext.getCurrentInstance().addMessage(null, fMsg);
-        }        
-        return "chicken-import";
-    }
+    //Delete    
+        //get id for delete
+        public void getIdForDel(int id, int supID){
+            maso = id;
+            macc = supID;
+        }
+        public String delete() {
+            try{
+                tuoi = gDotNhapGaGiongFacade.find(maso).getDotuoi();
+                soluong = gDotNhapGaGiongFacade.find(maso).getSoluongnhap();
+                conlai = gDotNhapGaGiongFacade.find(maso).getSoluongconlai();
+                thoigiannhap = gDotNhapGaGiongFacade.find(maso).getThoigiannhap();
+                thoigiancapnhat = gDotNhapGaGiongFacade.find(maso).getThoigiancapnhat();
+                xoa = true;
+                //Set forgein key
+                GDotNhapGaGiong dotnhap = gDotNhapGaGiongFacade.find(maso);
+                GNhaCungCap nhacungcap = gNhaCungCapFacade.find(macc);            
+                dotnhap.setMasocc(nhacungcap);
+
+                dotnhap.setDotuoi(tuoi);
+                dotnhap.setSoluongnhap(soluong);
+                dotnhap.setSoluongconlai(conlai);
+                dotnhap.setThoigiannhap(thoigiannhap);
+                dotnhap.setThoigiancapnhat(thoigiancapnhat);
+                dotnhap.setXoa(xoa);
+                gDotNhapGaGiongFacade.edit(dotnhap);
+                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Xóa Thành Công", null);
+                FacesContext.getCurrentInstance().addMessage(null, fMsg);
+            }catch(Exception ex){
+                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Xóa", null);
+                FacesContext.getCurrentInstance().addMessage(null, fMsg);
+            }        
+            return "chicken-import";
+        }
     public String getTen() {
         return ten;
     }

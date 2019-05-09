@@ -29,4 +29,8 @@ public interface GNhomGaFacadeLocal {
 
     int count();
     
+    public List<Object[]> showAllGroup();
+    
+    public List<GNhomGa> showGroupByImport(int importID);
+    
 }

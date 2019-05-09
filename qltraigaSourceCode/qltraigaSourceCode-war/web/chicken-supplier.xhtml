@@ -77,7 +77,7 @@
                                                           actionListener="#{chickenSupplierMB.getIdFormView(item.maso)}">
                                             <f:ajax execute="@form" render="@none" />
                                         </h:commandButton>
-                                        <button type="button" class="cs-btnDel" data-toggle="modal" data-target="#csDelModal" style="display: none" id="cs-btnDel">Xóa</button>    
+                                        <button type="button" data-toggle="modal" data-target="#csDelModal" style="display: none" id="cs-btnDel">Xóa</button>    
                                     </h:form>
                                 </h:column>
                             </h:dataTable>
@@ -89,7 +89,7 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc muốn xóa thông tin này ?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa Thông Tin</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>

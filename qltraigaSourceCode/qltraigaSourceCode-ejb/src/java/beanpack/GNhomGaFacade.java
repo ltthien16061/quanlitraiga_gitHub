@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,24 @@ public class GNhomGaFacade extends AbstractFacade<GNhomGa> implements GNhomGaFac
 
     public GNhomGaFacade() {
         super(GNhomGa.class);
+    }
+
+    @Override
+    public List<Object[]> showAllGroup() {
+        String sqlString = "select c.manhom,  a.ten, c.soluongbandau, c.soluonghientai, c.tinhtrang, c.thoigianchianhom, c.thoigiancapnhat, c.madotnhap " +
+                           "from [GNhaCungCap] a, [GDotNhapGaGiong] b, [GNhomGa] c " +
+                           "where a.maso = b.masocc and b.maso = c.madotnhap and c.xoa = 'false'";
+        Query query = em.createNativeQuery(sqlString);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<GNhomGa> showGroupByImport(int importID) {
+        String sqlString = "select * from [GNhomGa] where madotnhap = ? and xoa = ?";
+        Query query = em.createNativeQuery(sqlString, GNhomGa.class);
+        query.setParameter(1, importID);  
+        query.setParameter(2, false);
+        return query.getResultList();
     }
     
 }

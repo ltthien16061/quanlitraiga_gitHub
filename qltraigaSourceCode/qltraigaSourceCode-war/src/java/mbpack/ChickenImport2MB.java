@@ -21,7 +21,7 @@ import javax.ejb.EJB;
  */
 @Named(value = "chickenImport2MB")
 @SessionScoped
-public class ChickenImport2MB extends CustomValidator implements Serializable{
+public class ChickenImport2MB implements Serializable{
 
     @EJB
     private GDotNhapGaGiongFacadeLocal gDotNhapGaGiongFacade;

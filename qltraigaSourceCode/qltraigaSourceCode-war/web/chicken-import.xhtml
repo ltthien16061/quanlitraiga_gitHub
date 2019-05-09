@@ -76,7 +76,10 @@
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
                                     <h:form class="textright">
-                                        <h:commandButton value="Cập Nhật" class="btn btn-outline-primary" 
+                                        <h:commandButton value="Danh Sách Nhóm" class="btn btn-outline-info" 
+                                                         action="#{group2MB.showGroupbyImportID(item[0],item[5])}" >
+                                        </h:commandButton>
+                                        <h:commandButton value="Cập Nhật" class="btn btn-outline-primary ml-2" 
                                                          action="#{chickenImportMB.edit(item[0])}" >
                                         </h:commandButton>
                                         <h:commandButton  value="Xóa" class="btn btn-outline-danger cki-btnDel ml-2" onclick="showModal()"
@@ -95,7 +98,7 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc muốn xóa thông tin này ?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa Thông Tin</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
