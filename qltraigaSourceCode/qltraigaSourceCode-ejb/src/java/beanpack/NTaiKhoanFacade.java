@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,15 @@ public class NTaiKhoanFacade extends AbstractFacade<NTaiKhoan> implements NTaiKh
 
     public NTaiKhoanFacade() {
         super(NTaiKhoan.class);
+    }
+
+    @Override
+    public List<Object[]> findAccount(String username, String pass) {
+        String sqlString = "select maso from [NTaiKhoan] where tentk = ? and matkhau = ?";
+        Query query = em.createNativeQuery(sqlString);
+        query.setParameter(1, username);
+        query.setParameter(2, pass);
+        return query.getResultList();
     }
     
 }

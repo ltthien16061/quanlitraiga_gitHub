@@ -29,4 +29,8 @@ public interface GDotNhapGaGiongFacadeLocal {
 
     int count();
     
+    public List<GDotNhapGaGiong> showChickenImportBySp(int spID);
+    
+    public List<Object[]> showChickenImportByDel();
+    
 }

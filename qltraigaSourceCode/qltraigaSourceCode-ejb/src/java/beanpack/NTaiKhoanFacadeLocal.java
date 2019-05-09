@@ -29,4 +29,6 @@ public interface NTaiKhoanFacadeLocal {
 
     int count();
     
+    public List<Object[]> findAccount(String username, String pass);
+    
 }
