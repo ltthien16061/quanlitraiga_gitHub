@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>        
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    </h:head>
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="chicken-import">Đợt Nhập Gà Giống</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Danh Sách Nhóm</li>
+                        </ol>
+                        <h4>Thời Gian Nhập :</h4> 
+                        <h5>  
+                            <h:outputText value="#{group2MB.importDate}" >
+                                <f:convertDateTime pattern="HH:mm:ss / dd-MM-yyyy" />
+                            </h:outputText>
+                        </h5>
+                           
+                        <!-- Datatable -->                      
+                        
+                        <div class="table-responsive">
+                            <h:dataTable class="table" id="group2-dataTable" value="#{group2MB.groupList}" var="item">    
+                                <h:column>
+                                    <f:facet name="header">Mã Nhóm</f:facet>
+                                    <h:outputText value="#{item.manhom}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Số Lượng Ban Đầu</f:facet>
+                                    <h:outputText value="#{item.soluongbandau}"/>
+                                </h:column>
+                                <h:column >
+                                    <f:facet name="header">Số Lượng Hiện Tại</f:facet>
+                                    <h:outputText value="#{item.soluonghientai}"/>
+                                </h:column>                                  
+                                <h:column >
+                                    <f:facet name="header">Tình Trạng</f:facet>
+                                    <h:outputText value="#{item.tinhtrang}"/>
+                                </h:column> 
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Gian Chia Nhóm</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item.thoigianchianhom}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column> 
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText  value="#{item.thoigiancapnhat}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column> 
+                            </h:dataTable>
+                        </div>                        
+                    </div>
+                </div>  
+                
+                
+                
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable width
+                    $(document).ready(function() {
+                        $('#group2-dataTable').DataTable();
+                    } );
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+
