@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template = "templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                         <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="chicken-import">Đợt Nhập Gà Giống</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Thêm Mới</li>
+                        </ol>  
+                        <!--Message Modal-->
+                        <h:panelGroup id="message-containt">
+                            <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                         errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                         warnStyle="display:none"
+                                         rendered="#{facesContext.messageList.size() gt 0}" />
+                        </h:panelGroup>
+                        <!--End Message Modal-->
+                        <!--Nọi dung trang của bạn sẽ nằm ở đây-->   
+                        <div class="table-responsive animated cki-addtb">
+                            <h3>Chọn Nguồn Cung :</h3>
+                            <h:dataTable class="table" id="ckimportadd-dataTable" value="#{chickenImportMB.showAllChickenSupplier()}" var="item">
+                                <h:column>
+                                    <f:facet name="header">ID</f:facet>
+                                    <h:outputText value="#{item.macc}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Tên Nguồn Cung</f:facet>
+                                    <h:outputText class="sp-name" value="#{item.ten}"/>
+                                </h:column>
+                                <h:column class="cs-address">
+                                    <f:facet name="header">Địa Chỉ</f:facet>
+                                    <h:outputText class="sp-address" value="#{item.diachi}"/>
+                                </h:column>    
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter"></div></f:facet>
+                                    <h:form class="textright">
+                                        <h:commandButton  value="Chọn" class="btn btn-outline-info cki-btnChoice ml-2" onclick="ckiClick()"
+                                                          actionListener="#{chickenImportMB.getIdForAdd(item.maso)}">
+                                            <f:ajax execute="@form" render="@none" />
+                                        </h:commandButton>   
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>
+                        </div> 
+                        
+                        
+                        
+                        <h:form class="myform cki-addF animated hidden">                            
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Độ Tuổi Gà</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <h:inputText class="form-control" value="#{chickenImportMB.tuoi}" id="ckiAge" required="true" requiredMessage="Độ Tuổi Là Bắt Buộc Nhập!"
+                                                 validator="#{chickenImportMB.validateNum}" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
+                                        <f:ajax event="blur" execute="cki-addF" render="ckiAgeValidate"/> 
+                                    </h:inputText>
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                   <h:message for="ckiAge"  id="ckiAgeValidate" style="color: red"/>
+                                </small>                            
+                            </div>                          
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Số Lượng Nhập</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <h:inputText class="form-control" value="#{chickenImportMB.soluong}" id="ckiNum" required="true" requiredMessage="Số Lượng Nhập Là Bắt Buộc!"
+                                                 validator="#{chickenImportMB.validateNum}" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
+                                        <f:ajax event="blur" execute="cki-addF" render="ckiNumValidate"/> 
+                                    </h:inputText>
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                   <h:message for="ckiNum"  id="ckiNumValidate" style="color: red"/>
+                                </small>                            
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Ngày Nhập</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <p:calendar id="ckiDate" value="#{chickenImportMB.thoigiannhap}" pattern="dd-MM-yyyy" validator="#{chickenImportMB.validateDate}" >
+                                        <f:ajax event="blur" execute="cki-addF" render="ckidateValidate"/> 
+                                    </p:calendar>                                        
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                   <h:message for="ckiDate"  id="ckidateValidate" style="color: red"/>
+                                </small>
+                            </div> 
+                            
+                            <div class="form-group row">
+                                <div class="col-sm-10 offset-0 offset-sm-4 offset-xl-2">
+                                    <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{chickenImportMB.add()}" />
+                                    <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3" onclick="ckiReset()" >
+                                        <f:ajax execute="@form" render="@none" />
+                                    </h:commandButton>
+                                </div>
+                            </div>                            
+                        </h:form>                        
+                    </div>
+                </div>
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable chicken supplier
+                    $(document).ready(function() {
+                        $('#ckimportadd-dataTable').DataTable();
+                    } );
+                    function ckiClick(){
+
+                        $('.cki-addF').removeClass('fadeOutLeft');
+                        $('.cki-addF').removeClass('fadeOutRight');
+                        $('.cki-addtb').removeClass('fadeInRight');
+                        $('.cki-addtb').removeClass('fadeInLeft');
+
+                        $('.cki-addtb').addClass('fadeOutLeft');
+                        $('.cki-addtb').delay(2000).addClass('hidden');
+                        $('.cki-addF').delay(1000).removeClass('hidden');
+                        $('.cki-addF').addClass('fadeInRight');
+                    }
+                    function ckiReset(){    
+                        $('.cki-addF').removeClass('fadeInRight');
+                        $('.cki-addtb').removeClass('fadeOutLeft');
+
+                        $('.cki-addF').addClass('fadeOutRight');
+                        $('.cki-addF').delay(2000).addClass('hidden');
+                        $('.cki-addtb').delay(1000).removeClass('hidden');
+                        $('.cki-addtb').addClass('fadeInLeft');
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+
