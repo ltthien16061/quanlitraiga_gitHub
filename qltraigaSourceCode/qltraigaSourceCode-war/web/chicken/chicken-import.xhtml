@@ -80,7 +80,7 @@
                                                          action="#{group2MB.showGroupbyImportID(item[0],item[5])}" >
                                         </h:commandButton>
                                         <h:commandButton value="Cập Nhật" class="btn btn-outline-primary ml-2" 
-                                                         action="#{chickenImportMB.edit(item[0])}" >
+                                                         action="#{chickenImportMB.editChickenImport(item[0])}" >
                                         </h:commandButton>
                                         <h:commandButton  value="Xóa" class="btn btn-outline-danger cki-btnDel ml-2" onclick="showModal()"
                                                           actionListener="#{chickenImportMB.getIdForDel(item[0],item[1])}">
@@ -140,7 +140,7 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
                         <h:form>
-                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{chickenImportMB.delete()}" />
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{chickenImportMB.deleteChickenImport()}" />
                         </h:form>                        
                       </div>
                     </div>

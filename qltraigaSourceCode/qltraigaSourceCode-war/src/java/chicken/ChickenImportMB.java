@@ -68,7 +68,7 @@ public class ChickenImportMB extends CustomValidator implements Serializable {
         public void getIdForAdd(int supID){
             macc = supID;
         }
-        public String add() {
+        public String addChickenImport() {
             try{
                 GDotNhapGaGiong dotnhap = new GDotNhapGaGiong();
 
@@ -99,7 +99,7 @@ public class ChickenImportMB extends CustomValidator implements Serializable {
         }
       //edit
       //Find the row to edit
-    public String edit(int idCKImport) {
+    public String editChickenImport(int idCKImport) {
         maso = idCKImport;
         tuoi = gDotNhapGaGiongFacade.find(maso).getDotuoi();
         soluong = gDotNhapGaGiongFacade.find(maso).getSoluongnhap();
@@ -112,7 +112,7 @@ public class ChickenImportMB extends CustomValidator implements Serializable {
         return  "chicken-editimport";
     }
         //Edit it
-    public String edit() {
+    public String editChickenImport() {
         try{
            //Set forgein key
             GDotNhapGaGiong dotnhap = gDotNhapGaGiongFacade.find(maso);
@@ -145,7 +145,7 @@ public class ChickenImportMB extends CustomValidator implements Serializable {
             maso = id;
             macc = supID;
         }
-        public String delete() {
+        public String deleteChickenImport() {
             try{
                 tuoi = gDotNhapGaGiongFacade.find(maso).getDotuoi();
                 soluong = gDotNhapGaGiongFacade.find(maso).getSoluongnhap();
