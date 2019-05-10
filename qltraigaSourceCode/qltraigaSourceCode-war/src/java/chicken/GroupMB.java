@@ -61,7 +61,7 @@ public class GroupMB extends CustomValidator implements Serializable {
             groupID = id;
             importID = ipID;
         }
-        public String delete() {
+        public String deleteGroup() {
             try{
                 num1 = gNhomGaFacade.find(groupID).getSoluongbandau();
                 num2 = gNhomGaFacade.find(groupID).getSoluonghientai();
