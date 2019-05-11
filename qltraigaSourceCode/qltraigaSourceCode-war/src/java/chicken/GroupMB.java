@@ -5,6 +5,7 @@
  */
 package chicken;
 
+import other.CustomValidator;
 import beanpack.GDotNhapGaGiong;
 import beanpack.GDotNhapGaGiongFacadeLocal;
 import beanpack.GNhomGa;

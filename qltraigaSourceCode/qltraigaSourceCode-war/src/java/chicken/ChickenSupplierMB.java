@@ -5,6 +5,7 @@
  */
 package chicken;
 
+import other.CustomValidator;
 import beanpack.GNhaCungCap;
 import beanpack.GNhaCungCapFacadeLocal;
 import javax.inject.Named;

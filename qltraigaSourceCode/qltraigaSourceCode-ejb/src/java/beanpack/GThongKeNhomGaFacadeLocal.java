@@ -29,4 +29,6 @@ public interface GThongKeNhomGaFacadeLocal {
 
     int count();
     
+    public List<GThongKeNhomGa> showStatisticalByGroup(String groupID);
+    
 }

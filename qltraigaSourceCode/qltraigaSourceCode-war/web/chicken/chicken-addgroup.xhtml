@@ -36,7 +36,7 @@
                                 <h:panelGroup id="message-containt">
                                     <h:messages  style="padding-top: 18px" 
                                                  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
-                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                                 warnStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;"
                                                  rendered="#{facesContext.messageList.size() gt 0}" />
                                 </h:panelGroup>
                                  <!--Message Modal-->
@@ -86,7 +86,7 @@
                                                           actionListener="#{groupMB.getInfoForAddGroup(item[9],item[4],item[0])}">
                                                <f:ajax execute="@form" render="@none" />
                                         </h:commandButton>
-                                        <button type="button" data-toggle="modal" data-target="#groupAddModal" style="display: none" id="group-btnAdd">Xóa</button>   
+                                        <button type="button" data-toggle="modal" data-target="#groupAddModal" style="display: none" id="group-btnAdd">Bật Modal</button>   
                                     </h:form>
                                 </h:column>
                             </h:dataTable>  

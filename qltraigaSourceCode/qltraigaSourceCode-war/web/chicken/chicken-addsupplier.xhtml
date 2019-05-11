@@ -61,7 +61,9 @@
                             <div class="form-group row">
                                 <div class="col-sm-10 offset-0 offset-sm-4 offset-xl-2">
                                     <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{chickenSupplierMB.addChickenSupplier()}" />
-                                    <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3" type="reset" />
+                                    <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3">
+                                        <p:ajax update="cs-addF" resetValues="true" />
+                                    </h:commandButton>
                                 </div>
                             </div>                            
                         </h:form>                        

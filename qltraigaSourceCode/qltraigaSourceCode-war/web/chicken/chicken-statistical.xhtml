@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>        
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    </h:head>
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="chicken-group">Nhóm Gà</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Danh Sách Thống Kê</li>
+                        </ol>
+                        <h5>Nguồn : #{chickenStatisticalMB.groupID}</h5>                         
+                            <div class="textcenter">  
+                                <!--Message Modal-->
+                                <h:panelGroup id="message-containt">
+                                    <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                                 warnStyle="display:none"
+                                                 rendered="#{facesContext.messageList.size() gt 0}" />
+                                </h:panelGroup>
+                                 <!--Message Modal-->
+                            </div> 
+                            <div class="pl-0 col-12 col-sm-8 col-md-6">
+                                <p>
+                                    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#addGroupSt-collapse" aria-expanded="false" aria-controls="collapseExample">
+                                      Cập Nhật
+                                    </button>
+                                </p>
+                                <div class="collapse" id="addGroupSt-collapse">
+                                    <div class="card card-body">
+                                        <h:form id="addGroupSt-F">
+                                            <div class="form-group row">
+                                                <label class="col-12 col-form-label">Số Lượng Gà Chết</label>
+                                                <div class="col-12">
+                                                    <h:inputText class="form-control textright" value="#{chickenStatisticalMB.deadQuantity}" id="addGroupSt-deadNum"
+                                                                 required="true" requiredMessage="Số Lượng Gà Là Bắt Buộc Nhập!"
+                                                                 validator="#{chickenStatisticalMB.validateNum}" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;">
+                                                        <f:ajax event="blur" execute="cki-addF" render="addGroupSt-NumValidate"/> 
+                                                    </h:inputText>
+                                                </div>                                                 
+                                                <small class="form-text text-muted col textright">
+                                                   <h:message for="addGroupSt-deadNum"  id="addGroupSt-NumValidate" style="color: red"/>
+                                                </small>
+                                            </div>
+                                            <div class="form-group row">
+                                                <h:commandButton value="Thực Hiện" class="btn btn-outline-success ml-auto mr-3" action="#{chickenStatisticalMB.addGroupSttistical()}"/>
+                                            </div>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>                    
+                           
+                        <!-- Datatable -->                       
+                        
+                        <div class="table-responsive mt-4">
+                            <h:dataTable class="table" id="groupStatistical-dataTable" value="#{chickenStatisticalMB.showGroupStatistical()}" var="item">                             
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Điểm Thống Kê</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText class="groupst-date" value="#{item.thoidiemtk}" >
+                                            <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Số Lượng Gà Chết</div></f:facet>
+                                    <div class="textcenter"><h:outputText class="groupst-dead" value="#{item.soluonggachet}"/></div>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Số Lượng Còn Lại</div></f:facet>
+                                    <div class="textcenter"><h:outputText class="groupst-remaining" value="#{item.soluongconlai}"/></div>
+                                </h:column>  
+                            </h:dataTable>
+                        </div>                        
+                    </div>
+                </div>  
+                
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                      $(document).ready(function() {
+                        $('#groupStatistical-dataTable').DataTable();
+                    } );
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+

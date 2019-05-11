@@ -29,7 +29,7 @@
                                 <!--Message Modal-->
                                 <h:panelGroup id="message-containt">
                                     <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
-                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                                 warnStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
                                                  rendered="#{facesContext.messageList.size() gt 0}" />
                                 </h:panelGroup>
                                  <!--Message Modal-->
@@ -73,19 +73,18 @@
                                 </h:column>    
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
-                                    <h:form class="textright">               
-                                        <button class="btn btn-outline-primary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-cog"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Chi Tiết</a>
-                                            <a class="dropdown-item" href="#">Thống Kê</a>
-                                            <a class="dropdown-item" href="#">Cập Nhật Số Dư</a>
-                                            <div role="separator" class="dropdown-divider"></div>                                            
-                                            <h:commandButton  value="Xóa" class="dropdown-item text-danger group-btnDel" onclick="showModal()"
+                                    <h:form class="textright">  
+                                            <h:commandButton value="Danh Sách Thống Kê" class="btn btn-outline-info" 
+                                                             action="#{chickenStatisticalMB.getGroupIDForShow(item[0])}" >
+                                            </h:commandButton>
+                                            <h:commandButton value="Cập Nhật Số Dư" class="btn btn-outline-warning ml-2" 
+                                                             action="index" >
+                                            </h:commandButton>                                          
+                                            <h:commandButton  value="Xóa" class="btn btn-outline-danger ml-2 group-btnDel" onclick="showModal()"
                                                               actionListener="#{groupMB.getIdForDel(item[0], item[6])}">
                                                 <f:ajax execute="@form" render="@none" />
                                             </h:commandButton>
                                             <button type="button" data-toggle="modal" data-target="#groupDelModal" style="display: none" id="group-btnDel">Xóa</button>   
-                                        </div>
                                     </h:form>
                                 </h:column>
                             </h:dataTable>

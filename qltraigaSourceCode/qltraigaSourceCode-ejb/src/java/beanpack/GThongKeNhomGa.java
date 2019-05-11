@@ -32,9 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "GThongKeNhomGa.findAll", query = "SELECT g FROM GThongKeNhomGa g")
     , @NamedQuery(name = "GThongKeNhomGa.findByThoidiemtk", query = "SELECT g FROM GThongKeNhomGa g WHERE g.thoidiemtk = :thoidiemtk")
     , @NamedQuery(name = "GThongKeNhomGa.findBySoluonggachet", query = "SELECT g FROM GThongKeNhomGa g WHERE g.soluonggachet = :soluonggachet")
-    , @NamedQuery(name = "GThongKeNhomGa.findBySoluongconlai", query = "SELECT g FROM GThongKeNhomGa g WHERE g.soluongconlai = :soluongconlai")
-    , @NamedQuery(name = "GThongKeNhomGa.findByThoigianxoa", query = "SELECT g FROM GThongKeNhomGa g WHERE g.thoigianxoa = :thoigianxoa")
-    , @NamedQuery(name = "GThongKeNhomGa.findByXoa", query = "SELECT g FROM GThongKeNhomGa g WHERE g.xoa = :xoa")})
+    , @NamedQuery(name = "GThongKeNhomGa.findBySoluongconlai", query = "SELECT g FROM GThongKeNhomGa g WHERE g.soluongconlai = :soluongconlai")})
 public class GThongKeNhomGa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,14 +49,7 @@ public class GThongKeNhomGa implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "soluongconlai")
-    private int soluongconlai;
-    @Column(name = "thoigianxoa")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date thoigianxoa;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "xoa")
-    private boolean xoa;
+    private int soluongconlai;    
     @JoinColumn(name = "manhomga", referencedColumnName = "manhom")
     @ManyToOne(optional = false)
     private GNhomGa manhomga;
@@ -70,11 +61,10 @@ public class GThongKeNhomGa implements Serializable {
         this.thoidiemtk = thoidiemtk;
     }
 
-    public GThongKeNhomGa(Date thoidiemtk, int soluonggachet, int soluongconlai, boolean xoa) {
+    public GThongKeNhomGa(Date thoidiemtk, int soluonggachet, int soluongconlai) {
         this.thoidiemtk = thoidiemtk;
         this.soluonggachet = soluonggachet;
         this.soluongconlai = soluongconlai;
-        this.xoa = xoa;
     }
 
     public Date getThoidiemtk() {
@@ -99,22 +89,6 @@ public class GThongKeNhomGa implements Serializable {
 
     public void setSoluongconlai(int soluongconlai) {
         this.soluongconlai = soluongconlai;
-    }
-
-    public Date getThoigianxoa() {
-        return thoigianxoa;
-    }
-
-    public void setThoigianxoa(Date thoigianxoa) {
-        this.thoigianxoa = thoigianxoa;
-    }
-
-    public boolean getXoa() {
-        return xoa;
-    }
-
-    public void setXoa(boolean xoa) {
-        this.xoa = xoa;
     }
 
     public GNhomGa getManhomga() {

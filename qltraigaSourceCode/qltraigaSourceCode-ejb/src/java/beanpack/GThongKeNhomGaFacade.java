@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,14 @@ public class GThongKeNhomGaFacade extends AbstractFacade<GThongKeNhomGa> impleme
 
     public GThongKeNhomGaFacade() {
         super(GThongKeNhomGa.class);
+    }
+
+    @Override
+    public List<GThongKeNhomGa> showStatisticalByGroup(String groupID) {
+        String sqlString = "select * from [GThongKeNhomGa] where manhomga = ?";
+        Query query = em.createNativeQuery(sqlString, GThongKeNhomGa.class);
+        query.setParameter(1, groupID); 
+        return query.getResultList();
     }
     
 }
