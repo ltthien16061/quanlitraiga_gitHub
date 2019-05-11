@@ -39,12 +39,10 @@ public class GroupMB extends CustomValidator implements Serializable {
     //Parameter for table GNhomGa
     private String groupID;
     private int importID;
-    private int num1;
-    private int num2;
-    private boolean status;
-    private Date divideDate;
-    private Date update;
-    private boolean xoa;
+    private int divideNum;
+    //Parameter for add Group
+    private String codeSP;
+    private int remainingNum;
 
     /**
      * Creates a new instance of GroupMB
@@ -65,10 +63,15 @@ public class GroupMB extends CustomValidator implements Serializable {
         return listImport;
     }
     //Add group 
-     public String addGroup(String codeSP, int remainingNum, int importID){
+     public void getInfoForAddGroup(String code, int num, int id){
+         codeSP = code;
+         remainingNum = num;
+         importID = id;
+     }
+     public String addGroup(){
          //get input value into temp parameter
          int soluongconlai = remainingNum;
-         int soluongnhap = num1; 
+         int soluongnhap = divideNum; 
          //Check input number
          if(soluongnhap < 10 || soluongnhap > 200){
             FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Số gà trong nhóm không được thấp hơn 10 và cao hơn 200 con!", null);
@@ -107,13 +110,12 @@ public class GroupMB extends CustomValidator implements Serializable {
                 gDotNhapGaGiongFacade.edit(dotnhap);
                 FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thêm Thành Công", null);
                 FacesContext.getCurrentInstance().addMessage(null, fMsg);
-                return "chicken-group";
                 }catch(Exception ex){
                 ex.printStackTrace();
                 FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Thêm !", null);
                 FacesContext.getCurrentInstance().addMessage(null, fMsg);
-                return "chicken-addgroup";
             }
+            return "chicken-addgroup";
         }          
      }
      
@@ -125,19 +127,11 @@ public class GroupMB extends CustomValidator implements Serializable {
         }
         public String deleteGroup() {
             try{
-                num1 = gNhomGaFacade.find(groupID).getSoluongbandau();
-                num2 = gNhomGaFacade.find(groupID).getSoluonghientai();
-                status = gNhomGaFacade.find(groupID).getTinhtrang();
-                divideDate = gNhomGaFacade.find(groupID).getThoigianchianhom();
-                xoa = true;
+                boolean xoa = true;
                 //Set forgein key
                 GDotNhapGaGiong dotnhap = gDotNhapGaGiongFacade.find(importID);
                 GNhomGa nhomga = gNhomGaFacade.find(groupID);
                 nhomga.setMadotnhap(dotnhap);
-                nhomga.setSoluongbandau(num1);
-                nhomga.setSoluonghientai(num2);
-                nhomga.setTinhtrang(status);
-                nhomga.setThoigianchianhom(divideDate);
                 nhomga.setXoa(xoa);
                 gNhomGaFacade.edit(nhomga);
                 FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Xóa Thành Công", null);
@@ -163,52 +157,12 @@ public class GroupMB extends CustomValidator implements Serializable {
     public void setImportID(int importID) {
         this.importID = importID;
     }
-    public int getNum1() {
-        return num1;
+    public int getDivideNum() {
+        return divideNum;
     }
 
-    public void setNum1(int num1) {
-        this.num1 = num1;
-    }
-
-    public int getNum2() {
-        return num2;
-    }
-
-    public void setNum2(int num2) {
-        this.num2 = num2;
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public Date getDivideDate() {
-        return divideDate;
-    }
-
-    public void setDivideDate(Date divideDate) {
-        this.divideDate = divideDate;
-    }
-
-    public Date getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Date update) {
-        this.update = update;
-    }
-
-    public boolean isXoa() {
-        return xoa;
-    }
-
-    public void setXoa(boolean xoa) {
-        this.xoa = xoa;
+    public void setDivideNum(int divideNum) {
+        this.divideNum = divideNum;
     }
 
 }

@@ -147,22 +147,12 @@ public class ChickenImportMB extends CustomValidator implements Serializable {
         }
         public String deleteChickenImport() {
             try{
-                tuoi = gDotNhapGaGiongFacade.find(maso).getDotuoi();
-                soluong = gDotNhapGaGiongFacade.find(maso).getSoluongnhap();
-                conlai = gDotNhapGaGiongFacade.find(maso).getSoluongconlai();
-                thoigiannhap = gDotNhapGaGiongFacade.find(maso).getThoigiannhap();
-                thoigiancapnhat = gDotNhapGaGiongFacade.find(maso).getThoigiancapnhat();
                 xoa = true;
                 //Set forgein key
                 GDotNhapGaGiong dotnhap = gDotNhapGaGiongFacade.find(maso);
                 GNhaCungCap nhacungcap = gNhaCungCapFacade.find(macc);            
                 dotnhap.setMasocc(nhacungcap);
 
-                dotnhap.setDotuoi(tuoi);
-                dotnhap.setSoluongnhap(soluong);
-                dotnhap.setSoluongconlai(conlai);
-                dotnhap.setThoigiannhap(thoigiannhap);
-                dotnhap.setThoigiancapnhat(thoigiancapnhat);
                 dotnhap.setXoa(xoa);
                 gDotNhapGaGiongFacade.edit(dotnhap);
                 FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Xóa Thành Công", null);
