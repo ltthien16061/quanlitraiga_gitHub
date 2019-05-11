@@ -16,20 +16,20 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="chickenDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-egg"></i>
-                        <span>Nhóm Gà</span>
+                        <span>Quản Lý Gà</span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="chickenDropdown">
                         <h6 class="dropdown-header under-line">Nhà Cung Cấp:</h6>
-                        <h:link class="dropdown-item" value="Danh Sách" outcome = "chicken/chicken-supplier" > </h:link>
-                        <h:link class="dropdown-item" value="Thêm Mới" outcome = "chicken/chicken-addsupplier" > </h:link>
+                        <h:link class="dropdown-item" value="Danh Sách" outcome = "/chicken/chicken-supplier" > </h:link>
+                        <h:link class="dropdown-item" value="Thêm Mới" outcome = "/chicken/chicken-addsupplier" > </h:link>
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header under-line">Đợt Nhập Gà Giống:</h6>                        
-                        <h:link class="dropdown-item" value="Danh Sách" outcome = "chicken/chicken-import" > </h:link>
-                        <h:link class="dropdown-item" value="Thêm Mới" outcome = "chicken/chicken-addimport" > </h:link>
+                        <h:link class="dropdown-item" value="Danh Sách" outcome = "/chicken/chicken-import" > </h:link>
+                        <h:link class="dropdown-item" value="Thêm Mới" outcome = "/chicken/chicken-addimport" > </h:link>
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header under-line">Nhóm Gà:</h6>
-                        <h:link class="dropdown-item" value="Danh Sách" outcome = "chicken/chicken-group" > </h:link>
-                        <h:link class="dropdown-item" value="Ghép Mới" outcome = "index" > </h:link>
+                        <h:link class="dropdown-item" value="Danh Sách" outcome = "/chicken/chicken-group" > </h:link>
+                        <h:link class="dropdown-item" value="Chia Nhóm" outcome = "/chicken/chicken-addgroup" > </h:link>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -39,7 +39,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="farmDropdown">
                         <h6 class="dropdown-header under-line">Nông Hộ:</h6>
-                        <a class="dropdown-item" href="#">Danh Sách</a>
+                        <h:link class="dropdown-item" value="Danh Sách" outcome = "/farm/farm-blankpage" > </h:link>
                         <a class="dropdown-item" href="#">Thêm Mới</a>
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header under-line">Đợt Thu Hoạch:</h6>
@@ -63,7 +63,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="foodDropdown">
                         <h6 class="dropdown-header under-line">Phân Loại:</h6>
-                        <a class="dropdown-item" href="#">Danh Sách</a>
+                        <h:link class="dropdown-item" value="Danh Sách" outcome = "/food/food-blankpage" > </h:link>
                         <a class="dropdown-item" href="#">Thêm Mới</a>
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header under-line">Thức Ăn:</h6>
@@ -94,7 +94,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="drugDropdown">
                         <h6 class="dropdown-header under-line">Nguồn Cung:</h6>
-                        <a class="dropdown-item" href="#">Danh Sách</a>
+                        <h:link class="dropdown-item" value="Danh Sách" outcome = "/drug/drug-blankpage" > </h:link>
                         <a class="dropdown-item" href="#">Thêm Mới</a>
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header under-line">Thuốc:</h6>

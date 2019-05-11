@@ -41,7 +41,7 @@ public class GDotNhapGaGiongFacade extends AbstractFacade<GDotNhapGaGiong> imple
 
     @Override
     public List<Object[]> showChickenImportByDel() {
-        String sqlString = "select a.*,b.ten from [GDotNhapGaGiong] a, [GNhaCungCap] b where a.xoa = 'false' and a.masocc = b.maso";
+        String sqlString = "select a.*, b.ten, b.macc from [GDotNhapGaGiong] a, [GNhaCungCap] b where a.xoa = 'false' and a.masocc = b.maso";
         Query query = em.createNativeQuery(sqlString);
         return query.getResultList();
     }

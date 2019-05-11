@@ -23,7 +23,7 @@
                         <h3>Danh Sách Nhóm</h3> 
                         <div class="row">
                             <div class="col-md-6 col-12">
-                                <h:link outcome="index" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Thêm Mới </h:link>  
+                                <h:link outcome="chicken-addgroup" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Thêm Mới </h:link>  
                             </div>
                             <div class="col textright">                                
                                 <!--Message Modal-->
@@ -41,7 +41,7 @@
                         <div class="table-responsive">
                             <h:dataTable class="table" id="group-dataTable" value="#{groupMB.showAllGroup()}" var="item">
                                 <h:column>
-                                    <h:outputText value="#{item[7]}"/>
+                                    <h:outputText value="#{item[6]}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Mã Nhóm</f:facet>
@@ -61,24 +61,16 @@
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Tình Trạng</f:facet>
-                                    <h:outputText value="#{item[4]==true?'Đã ghép':'' }"/>
+                                    <h:outputText value="#{item[4]==true?'Hết Gà':'Có Thể Chia Nhóm' }"/>
                                 </h:column>                              
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter">Thời Gian Chia Nhóm</div></f:facet>
                                     <div class="textcenter">
                                         <h:outputText class="group-date" value="#{item[5]}" >
-                                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                                            <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy" />
                                         </h:outputText>
                                     </div>                                    
-                                </h:column>                              
-                                <h:column>
-                                    <f:facet name="header"><div class="textcenter">Cập Nhật</div></f:facet>
-                                    <div class="textcenter">
-                                        <h:outputText value="#{item[6]}" >
-                                            <f:convertDateTime pattern="dd-MM-yyyy" />
-                                        </h:outputText>
-                                    </div>                                    
-                                </h:column>
+                                </h:column>    
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
                                     <h:form class="textright">               
@@ -86,11 +78,10 @@
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item" href="#">Chi Tiết</a>
                                             <a class="dropdown-item" href="#">Thống Kê</a>
-                                            <a class="dropdown-item" href="#">Cập Nhật</a>
                                             <a class="dropdown-item" href="#">Cập Nhật Số Dư</a>
                                             <div role="separator" class="dropdown-divider"></div>                                            
                                             <h:commandButton  value="Xóa" class="dropdown-item text-danger group-btnDel" onclick="showModal()"
-                                                              actionListener="#{groupMB.getIdForDel(item[0], item[7])}">
+                                                              actionListener="#{groupMB.getIdForDel(item[0], item[6])}">
                                                 <f:ajax execute="@form" render="@none" />
                                             </h:commandButton>
                                             <button type="button" data-toggle="modal" data-target="#groupDelModal" style="display: none" id="group-btnDel">Xóa</button>   

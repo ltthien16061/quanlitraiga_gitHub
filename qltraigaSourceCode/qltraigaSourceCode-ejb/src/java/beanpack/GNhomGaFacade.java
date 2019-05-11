@@ -32,7 +32,7 @@ public class GNhomGaFacade extends AbstractFacade<GNhomGa> implements GNhomGaFac
 
     @Override
     public List<Object[]> showAllGroup() {
-        String sqlString = "select c.manhom,  a.ten, c.soluongbandau, c.soluonghientai, c.tinhtrang, c.thoigianchianhom, c.thoigiancapnhat, c.madotnhap " +
+        String sqlString = "select c.manhom,  a.ten, c.soluongbandau, c.soluonghientai, c.tinhtrang, c.thoigianchianhom, c.madotnhap " +
                            "from [GNhaCungCap] a, [GDotNhapGaGiong] b, [GNhomGa] c " +
                            "where a.maso = b.masocc and b.maso = c.madotnhap and c.xoa = 'false'";
         Query query = em.createNativeQuery(sqlString);
@@ -46,6 +46,13 @@ public class GNhomGaFacade extends AbstractFacade<GNhomGa> implements GNhomGaFac
         query.setParameter(1, importID);  
         query.setParameter(2, false);
         return query.getResultList();
+    }
+
+    @Override
+    public int countGroupID() {
+        String sqlString = "select count(manhom) from [GNhomGa]";
+        Query query = em.createNativeQuery(sqlString);        
+        return (int)query.getSingleResult();
     }
     
 }

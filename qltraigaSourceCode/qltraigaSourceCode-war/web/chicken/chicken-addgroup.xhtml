@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="chicken-group">Nhóm Gà</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Danh Sách</li>
+                        </ol> 
+                        <!--Nọi dung trang của bạn sẽ nằm ở đây-->  
+                        <div class="row">
+                            <fieldset class="border p-2 mx-2 col-md-3 col-12">
+                                <legend  class="w-auto"> Số lượng gà trong nhóm </legend>
+                                <h:form>
+                                    <h:inputText class="form-control" value="#{groupMB.num1}" id="group-addNum" required="true" requiredMessage="Số lượng gà là bắt buộc!"
+                                                 onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
+                                          <f:ajax event="blur" execute="cki-addF" render="groupaddNumValidate"/> 
+                                    </h:inputText>
+                                    <small class="form-text text-muted">
+                                       <h:message for="group-addNum"  id="groupaddNumValidate" style="color: red"/>
+                                    </small> 
+                                </h:form>
+                             </fieldset>
+                            <div class="col textright">                                
+                                <!--Message Modal-->
+                                <h:panelGroup id="message-containt">
+                                    <h:messages  style="padding-top: 18px" 
+                                                 infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                                 rendered="#{facesContext.messageList.size() gt 0}" />
+                                </h:panelGroup>
+                                 <!--Message Modal-->
+                            </div>
+                        </div> 
+                        <h3>Chọn Đợt Nhập :</h3>
+                        <div class="table-responsive">
+                            <h:dataTable class="table" id="groupadd-dataTable" value="#{groupMB.showAllImportForAdd()}" var="item">
+                                <h:column>
+                                    <f:facet name="header">Mã Nguồn Cung</f:facet>
+                                    <h:outputText value="#{item[9]}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Tên Nguồn Cung</f:facet>
+                                    <h:outputText value="#{item[8]}"/>
+                                </h:column>                                                  
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Gian Nhập</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item[5]}" >
+                                            <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column> 
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Độ Tuổi</div></f:facet>
+                                    <div class="textcenter">
+                                       <h:outputText value="#{item[2]}"/> 
+                                    </div>    
+                                </h:column>
+                                <h:column class="cs-address">
+                                    <f:facet name="header"><div class="textcenter">Số Lượng Nhập</div></f:facet>
+                                    <div class="textcenter">
+                                       <h:outputText value="#{item[3]}"/> 
+                                    </div>    
+                                </h:column>  
+                                <h:column class="cs-address">
+                                    <f:facet name="header"><div class="textcenter">Số Lượng Còn lại</div></f:facet>
+                                    <div class="textcenter">
+                                       <h:outputText value="#{item[4]}"/> 
+                                    </div>                                    
+                                </h:column>   
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter"></div></f:facet>
+                                    <h:form class="textcenter">
+                                        <h:commandButton  value="Chọn" class="btn btn-outline-info group-btnChoice"
+                                                          actionListener="#{groupMB.addGroup(item[9],item[4],item[0])}">
+                                        </h:commandButton>   
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>  
+                        </div>         
+                    </div>
+                </div>
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable chicken supplier
+                    $(document).ready(function() {
+                        $('#groupadd-dataTable').DataTable();
+                    } );                   
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+

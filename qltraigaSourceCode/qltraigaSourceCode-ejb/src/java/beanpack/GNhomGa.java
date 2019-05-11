@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "GNhomGa.findBySoluonghientai", query = "SELECT g FROM GNhomGa g WHERE g.soluonghientai = :soluonghientai")
     , @NamedQuery(name = "GNhomGa.findByTinhtrang", query = "SELECT g FROM GNhomGa g WHERE g.tinhtrang = :tinhtrang")
     , @NamedQuery(name = "GNhomGa.findByThoigianchianhom", query = "SELECT g FROM GNhomGa g WHERE g.thoigianchianhom = :thoigianchianhom")
-    , @NamedQuery(name = "GNhomGa.findByThoigiancapnhat", query = "SELECT g FROM GNhomGa g WHERE g.thoigiancapnhat = :thoigiancapnhat")
     , @NamedQuery(name = "GNhomGa.findByXoa", query = "SELECT g FROM GNhomGa g WHERE g.xoa = :xoa")})
 public class GNhomGa implements Serializable {
 
@@ -69,9 +68,6 @@ public class GNhomGa implements Serializable {
     @Column(name = "thoigianchianhom")
     @Temporal(TemporalType.TIMESTAMP)
     private Date thoigianchianhom;
-    @Column(name = "thoigiancapnhat")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date thoigiancapnhat;
     @Basic(optional = false)
     @NotNull
     @Column(name = "xoa")
@@ -144,14 +140,6 @@ public class GNhomGa implements Serializable {
 
     public void setThoigianchianhom(Date thoigianchianhom) {
         this.thoigianchianhom = thoigianchianhom;
-    }
-
-    public Date getThoigiancapnhat() {
-        return thoigiancapnhat;
-    }
-
-    public void setThoigiancapnhat(Date thoigiancapnhat) {
-        this.thoigiancapnhat = thoigiancapnhat;
     }
 
     public boolean getXoa() {

@@ -12,7 +12,10 @@ import beanpack.GNhomGaFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -49,13 +52,72 @@ public class GroupMB extends CustomValidator implements Serializable {
     public GroupMB() {
     }
     
-      //show all
+    //show all group
     public List<Object[]> showAllGroup() {
         List<Object[]> listGroup = new ArrayList<Object[]>();
         listGroup = gNhomGaFacade.showAllGroup();
         return listGroup;
     }
-    //Delete    
+    //show chicken import for add group
+     public List<Object[]> showAllImportForAdd() {
+        List<Object[]> listImport = new ArrayList<Object[]>();
+        listImport = gDotNhapGaGiongFacade.showChickenImportByDel();
+        return listImport;
+    }
+    //Add group 
+     public String addGroup(String codeSP, int remainingNum, int importID){
+         //get input value into temp parameter
+         int soluongconlai = remainingNum;
+         int soluongnhap = num1; 
+         //Check input number
+         if(soluongnhap < 10 || soluongnhap > 200){
+            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Số gà trong nhóm không được thấp hơn 10 và cao hơn 200 con!", null);
+            FacesContext.getCurrentInstance().addMessage(null, fMsg);
+            return "chicken-addgroup";
+         }else if(soluongnhap > soluongconlai){
+            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Số gà trong nhóm không được cao hơn số gà còn lại trong đợt nhập đã chọn!", null);
+            FacesContext.getCurrentInstance().addMessage(null, fMsg);
+            return "chicken-addgroup";
+         }else{
+            //String Processing
+                //get supplier code
+            String code = codeSP;
+                //get time
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = new Date();
+                //get group ID number
+            int groupCount = gNhomGaFacade.countGroupID();
+                //set string group ID
+            String ID = code + "-" + dateFormat.format(date) + "G" + (groupCount+1);
+            System.out.println("groupID: "+ID);   
+            //Add Group
+            try{
+                GNhomGa nhomga = new GNhomGa();
+                GDotNhapGaGiong dotnhap = gDotNhapGaGiongFacade.find(importID);                
+                nhomga.setManhom(ID);
+                nhomga.setMadotnhap(dotnhap);
+                nhomga.setSoluongbandau(soluongnhap);
+                nhomga.setSoluonghientai(soluongnhap);
+                nhomga.setTinhtrang(false);                
+                nhomga.setThoigianchianhom(date);
+                nhomga.setXoa(false);
+                gNhomGaFacade.create(nhomga);
+                //Update remaining chicken Number
+                dotnhap.setSoluongconlai(dotnhap.getSoluongconlai()-soluongnhap);
+                gDotNhapGaGiongFacade.edit(dotnhap);
+                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thêm Thành Công", null);
+                FacesContext.getCurrentInstance().addMessage(null, fMsg);
+                return "chicken-group";
+                }catch(Exception ex){
+                ex.printStackTrace();
+                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Thêm !", null);
+                FacesContext.getCurrentInstance().addMessage(null, fMsg);
+                return "chicken-addgroup";
+            }
+        }          
+     }
+     
+    //Delete Group
         //get id for delete
         public void getIdForDel(String id, int ipID){
             groupID = id;
@@ -67,7 +129,6 @@ public class GroupMB extends CustomValidator implements Serializable {
                 num2 = gNhomGaFacade.find(groupID).getSoluonghientai();
                 status = gNhomGaFacade.find(groupID).getTinhtrang();
                 divideDate = gNhomGaFacade.find(groupID).getThoigianchianhom();
-                update = gNhomGaFacade.find(groupID).getThoigiancapnhat();
                 xoa = true;
                 //Set forgein key
                 GDotNhapGaGiong dotnhap = gDotNhapGaGiongFacade.find(importID);
@@ -77,7 +138,6 @@ public class GroupMB extends CustomValidator implements Serializable {
                 nhomga.setSoluonghientai(num2);
                 nhomga.setTinhtrang(status);
                 nhomga.setThoigianchianhom(divideDate);
-                nhomga.setThoigiancapnhat(update);
                 nhomga.setXoa(xoa);
                 gNhomGaFacade.edit(nhomga);
                 FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Xóa Thành Công", null);
