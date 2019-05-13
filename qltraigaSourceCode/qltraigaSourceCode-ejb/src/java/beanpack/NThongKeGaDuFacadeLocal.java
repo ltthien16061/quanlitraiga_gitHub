@@ -29,4 +29,5 @@ public interface NThongKeGaDuFacadeLocal {
 
     int count();
     
+    public List<NThongKeGaDu> checkSurplus(String groupID);
 }

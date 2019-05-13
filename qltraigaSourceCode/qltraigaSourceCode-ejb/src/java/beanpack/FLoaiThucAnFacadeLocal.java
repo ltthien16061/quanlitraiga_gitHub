@@ -28,5 +28,7 @@ public interface FLoaiThucAnFacadeLocal {
     List<FLoaiThucAn> findRange(int[] range);
 
     int count();
+        
+    public List<Object[]> showAllwithNotDel();
     
 }

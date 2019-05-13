@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,17 @@ public class FLoaiThucAnFacade extends AbstractFacade<FLoaiThucAn> implements FL
 
     public FLoaiThucAnFacade() {
         super(FLoaiThucAn.class);
+    }
+
+    @Override
+    public List<Object[]> showAllwithNotDel() {
+        String sqlString = "SELECT a.maso, a.tenloai, count(b.ten) as no, a.thoigiancapnhat  " +
+                            "FROM [FLoaiThucAn] a left Join [FThucAn] b " +
+                            "on  a.maso = b.maloai " +
+                            "where a.xoa = 'false' " +
+                            "group by a.maso, a.tenloai, a.thoigiancapnhat";
+        Query query = em.createNativeQuery(sqlString);
+        return query.getResultList();
     }
     
 }

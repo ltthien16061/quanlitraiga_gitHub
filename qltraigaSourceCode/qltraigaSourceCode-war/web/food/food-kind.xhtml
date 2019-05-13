@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>        
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    </h:head>
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="food-kind">Loại Thức Ăn</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Danh Sách</li>
+                        </ol>
+                        <h3>Danh Sách Loại Thức Ăn</h3> 
+                        <div class="row">
+                            <div class="col textright">                                
+                                <!--Message Modal-->
+                                <h:panelGroup id="message-containt">
+                                    <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                                 warnStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                                 rendered="#{facesContext.messageList.size() gt 0}" />
+                                </h:panelGroup>
+                                 <!--Message Modal-->
+                            </div>
+                        </div>                       
+                        <!--Add part-->
+                        <div class="pl-0 col-12 col-sm-8 col-md-6">
+                            <p>
+                                <button class="btn btn-outline-success mb-3" type="button" data-toggle="collapse" data-target="#addfk-collapse" aria-expanded="false" aria-controls="collapseExample">
+                                  <i class="fas fa-plus"></i> Thêm Mới 
+                                </button>
+                            </p>
+                            <div class="collapse" id="addfk-collapse">
+                                <div class="card card-body">
+                                    <h:form>
+                                        <div class="form-group row">
+                                            <label class="col-12 col-form-label">Nhập Tên Loại Muốn Tạo</label>
+                                            <div class="col-12">
+                                                <h:inputText class="form-control textright" value="#{foodKindMB.tenloai}" id="addFK-name"
+                                                             validator="#{foodKindMB.validateString}" >
+                                                    <f:ajax event="blur" execute="cki-addF" render="addFk-NameValidate"/> 
+                                                </h:inputText>
+                                            </div>                                                 
+                                            <small class="form-text text-muted col textright">
+                                               <h:message for="addFK-name"  id="addFk-NameValidate" style="color: red"/>
+                                            </small>
+                                        </div>
+                                        <div class="form-group row">
+                                            <h:commandButton value="Thực Hiện" class="btn btn-outline-success ml-auto mr-3" action="#{foodKindMB.addAllKindOfFood()}"/>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div> 
+                        <!-- Datatable -->                       
+                        
+                        <div class="table-responsive">
+                            <h:dataTable class="table" id="kindf-dataTable" value="#{foodKindMB.showAllKindOfFood()}" var="item">
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">ID</div></f:facet>
+                                    <div class="textcenter"><h:outputText value="#{item[0]}"/></div>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Tên Loại</div></f:facet>
+                                    <div class="textcenter"><h:outputText class="fk-name" value="#{item[1]}"/></div>
+                                </h:column>  
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Số Thức Ăn Trong Nhóm</div></f:facet>
+                                    <div class="textcenter"><h:outputText class="fk-num" value="#{item[2]}"/></div>
+                                </h:column>                              
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item[3]}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter"></div></f:facet>
+                                    <h:form class="textright">
+                                        <h:commandButton value="Danh Sách Thức Ăn" class="btn btn-outline-info" 
+                                                         action="index" >
+                                        </h:commandButton>
+                                        <!--Edit-->
+                                        <h:commandButton  value="Cập Nhật" class="btn btn-outline-warning fk-btnEdit ml-2" onclick="showModalEdit()"
+                                                          actionListener="#{foodKindMB.getIdForEdit(item[0])}">
+                                            <f:ajax execute="@form" render="@none" />
+                                        </h:commandButton>
+                                        <button type="button" data-toggle="modal" data-target="#fkEditModal" style="display: none" id="fk-btnEdit">cập nhật</button>    
+                                        <!--Delete-->
+                                        <h:commandButton  value="Xóa" class="btn btn-outline-danger fk-btnDel ml-2" onclick="showModalDel()"
+                                                          actionListener="#{foodKindMB.getIdForDel(item[0])}">
+                                            <f:ajax execute="@form" render="@none" />
+                                        </h:commandButton>
+                                        <button type="button" data-toggle="modal" data-target="#fkDelModal" style="display: none" id="fk-btnDel">Xóa</button>    
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>
+                        </div>                        
+                    </div>
+                </div>  
+                <!-- Delete Modal -->
+                <div class="modal fade" id="fkDelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa Thông Tin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                          <div>
+                            <i class="small-title">Bạn Muốn Xóa Phân Loại </i>"<b id="fkName-Modal"></b>"<i class="small-title"> Khỏi Danh Sách Này ?</i>
+                          </div>
+                          <div>
+                              <i class="small-title">Phân Loại Thức Ăn Này Hiện Đang Chứa </i><b id="fkNum-Modal"></b><i class="small-title"> Loại Thức Ăn Bên Trong !</i>
+                          </div>
+                        
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
+                        <h:form>
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{foodKindMB.deleteKindOfFood()}" />
+                        </h:form>                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Edit Modal -->
+                <div class="modal fade" id="fkEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <h:form id="editFK-Form">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Cập Nhật</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">                          
+                              <div class="form-group row">
+                                  <div class="col-12 col-sm-4">
+                                      <p class="small-title pt-1">Tên Phân Loại Cũ :</p>
+                                  </div>
+                                  <div class="col" >
+                                     <p id="fkEditOldName-Modal"></p>
+                                  </div>
+                              </div>                       
+                              <div class="form-group row">
+                                  <div class="col-12 col-sm-4">
+                                      <p class="small-title pt-1">Nhập Tên Muốn Đổi :</p>
+                                  </div>
+                                  <div class="col" >
+                                      <p id="fkEditNewName-Modal">
+                                          <h:inputText class="form-control" value="#{foodKindMB.tenmoi}" id="editFK-name"
+                                                         validator="#{foodKindMB.validateString}" >
+                                                <f:ajax event="blur" execute="editFK-Form" render="editFK-NameValidate"/> 
+                                            </h:inputText>                                             
+                                            <small class="form-text text-muted col textright">
+                                               <h:message for="editFK-name"  id="editFK-NameValidate" style="color: red"/>
+                                            </small>
+                                      </p>
+                                  </div>
+                              </div>
+
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
+                              <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{foodKindMB.editKindOfFood()}" />                       
+                            </div>
+                        </h:form> 
+                    </div>
+                  </div>
+                </div>
+                
+                
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable width
+                    $(document).ready(function() {
+                        $('#kindf-dataTable').DataTable();
+                    } );
+                    //Get value in datatable for Delete
+                    $(".fk-btnDel").click(function() {
+                        var $name = $(this).closest("tr").find(".fk-name").text();   
+                        var $num = $(this).closest("tr").find(".fk-num").text();            
+         
+                        document.getElementById("fkName-Modal").innerHTML = $name;  
+                        document.getElementById("fkNum-Modal").innerHTML = $num;  
+
+                    });
+                    function showModalDel(){
+                        document.getElementById("fk-btnDel").click();
+                    }
+                    
+                    //Get value in datatable for Edit
+                    $(".fk-btnEdit").click(function() {
+                        var $oldname = $(this).closest("tr").find(".fk-name").text();  
+                        document.getElementById("fkEditOldName-Modal").innerHTML = $oldname;  
+                    });
+                    function showModalEdit(){
+                        document.getElementById("fk-btnEdit").click();
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+

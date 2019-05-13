@@ -32,9 +32,14 @@ public class GNhomGaFacade extends AbstractFacade<GNhomGa> implements GNhomGaFac
 
     @Override
     public List<Object[]> showAllGroup() {
-        String sqlString = "select c.manhom,  a.ten, c.soluongbandau, c.soluonghientai, c.tinhtrang, c.thoigianchianhom, c.madotnhap " +
-                           "from [GNhaCungCap] a, [GDotNhapGaGiong] b, [GNhomGa] c " +
-                           "where a.maso = b.masocc and b.maso = c.madotnhap and c.xoa = 'false'";
+//        String sqlString = "select c.manhom,  a.ten, c.soluongbandau, c.soluonghientai, c.tinhtrang, c.thoigianchianhom, c.madotnhap " +
+//                           "from [GNhaCungCap] a, [GDotNhapGaGiong] b, [GNhomGa] c " +
+//                           "where a.maso = b.masocc and b.maso = c.madotnhap and c.xoa = 'false'";
+        String sqlString = "SELECT c.manhom,  a.ten, c.soluongbandau, c.soluonghientai, c.tinhtrang, c.thoigianchianhom, c.madotnhap, n.sogadu " +
+                            "FROM  [GNhaCungCap] a,[GDotNhapGaGiong] b, [GNHomGa] c left Join [NThongKeGaDu] n " +
+                            "on  c.manhom = n.manhomga " +
+                            "where  a.maso = b.masocc and b.maso = c.madotnhap and c.xoa = 'false' " +
+                            "group by c.manhom,  a.ten, c.soluongbandau, c.soluonghientai, c.tinhtrang, c.thoigianchianhom, c.madotnhap, n.sogadu";
         Query query = em.createNativeQuery(sqlString);
         return query.getResultList();
     }

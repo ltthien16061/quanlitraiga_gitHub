@@ -52,12 +52,12 @@
                                     <h:outputText class="group-sp" value="#{item[1]}"/>
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Số Lượng Ban Đầu</f:facet>
-                                    <h:outputText class="group-num1" value="#{item[2]}"/>
+                                    <f:facet name="header"><div class="textcenter">Số Lượng Ban Đầu</div></f:facet>
+                                    <div class="textcenter"><h:outputText class="group-num1" value="#{item[2]}"/></div>
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Số Lượng Hiện Tại</f:facet>
-                                    <h:outputText class="group-num2" value="#{item[3]}"/>
+                                    <f:facet name="header"><div class="textcenter">Số Lượng Hiện Tại</div></f:facet>
+                                    <div class="textcenter"><h:outputText class="group-num2" value="#{item[3]}"/></div>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Tình Trạng</f:facet>
@@ -70,17 +70,25 @@
                                             <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy" />
                                         </h:outputText>
                                     </div>                                    
-                                </h:column>    
+                                </h:column> 
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Số Gà Dư</div></f:facet>
+                                    <div class="textcenter"><h:outputText class="group-surplus" value="#{item[7]==null?0:item[7]}"/></div>
+                                </h:column>   
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
                                     <h:form class="textright">  
-                                            <h:commandButton value="Danh Sách Thống Kê" class="btn btn-outline-info" 
+                                            <h:commandButton value="Thống Kê" class="btn btn-outline-info" 
                                                              action="#{chickenStatisticalMB.getGroupIDForShow(item[0])}" >
                                             </h:commandButton>
-                                            <h:commandButton value="Cập Nhật Số Dư" class="btn btn-outline-warning ml-2" 
-                                                             action="index" >
-                                            </h:commandButton>                                          
-                                            <h:commandButton  value="Xóa" class="btn btn-outline-danger ml-2 group-btnDel" onclick="showModal()"
+                                            <!--btn-group surplus-->
+                                             <h:commandButton  value="Cập Nhật Số Dư" class="btn btn-outline-warning ml-2 group-btnSurplus" onclick="showModal1()"
+                                                               actionListener="#{chickenSurplusMB.getInfoSurplus(item[0], item[3])}">
+                                                <f:ajax execute="@form" render="@none" />
+                                            </h:commandButton>                                            
+                                            <button type="button" data-toggle="modal" data-target="#groupSurplusModal" style="display: none" id="group-btnSurplus">Mở modal "Cập nhật số dư"</button>   
+                                            <!--btn-group del-->
+                                            <h:commandButton  value="Xóa" class="btn btn-outline-danger ml-2 group-btnDel" onclick="showModal2()"
                                                               actionListener="#{groupMB.getIdForDel(item[0], item[6])}">
                                                 <f:ajax execute="@form" render="@none" />
                                             </h:commandButton>
@@ -91,7 +99,55 @@
                         </div>                        
                     </div>
                 </div>  
-                <!-- Modal -->
+                <!-- Surplus Modal -->
+                <div class="modal fade" id="groupSurplusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cập Nhật Gà Dư</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="col-12 col-sm-4">
+                                <p class="small-title pt-1">Mã Nhóm :</p>
+                            </div>
+                            <div class="col" >
+                                <p id="groupID-sModal"></p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 col-sm-4">
+                                <p class="small-title pt-1">Số Lượng Hiện Tại :</p>
+                            </div>
+                            <div class="col" >
+                                <p id="groupRemaining-sModal"></p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 col-sm-4">
+                                <p class="small-title pt-1">Số Dư Đã lưu :</p>
+                            </div>
+                            <div class="col" >
+                                <p id="groupSurplus-sModal"></p>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer"> 
+                        <h:form>
+                            <h:commandButton value="Hoàn Tác" class="btn btn-outline-danger btn-surplusRollback" action="#{chickenSurplusMB.updateSurplusChicken()}" />
+                        </h:form>  
+                        <h:form>
+                            <h:commandButton value="Cập Nhật" class="btn btn-outline-success btn-surplusSubmit" action="#{chickenSurplusMB.updateSurplusChicken()}" />
+                        </h:form>                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Delete Modal -->
                 <div class="modal fade" id="groupDelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -168,7 +224,28 @@
                             ]
                         } );
                     } );
-                         //Get value in datatable
+                    //Get value in datatable for surplus
+                    $(".group-btnSurplus").click(function() {
+                        var $sid = $(this).closest("tr").find(".group-id").text(); 
+                        var $snum1 = $(this).closest("tr").find(".group-num2").text(); 
+                        var $snum2 = $(this).closest("tr").find(".group-surplus").text();             
+                        document.getElementById("groupID-sModal").innerHTML = $sid;         
+                        document.getElementById("groupRemaining-sModal").innerHTML = $snum1;   
+                        document.getElementById("groupSurplus-sModal").innerHTML = $snum2;
+                        
+                        //Display button submit and rollback by surplus number
+                        if($snum2=='0'){
+                            $('.btn-surplusSubmit').removeClass('hidden');
+                            $('.btn-surplusRollback').addClass('hidden');
+                        }else{
+                            $('.btn-surplusRollback').removeClass('hidden');
+                            $('.btn-surplusSubmit').addClass('hidden');                            
+                        }
+                    });
+                    function showModal1(){
+                        document.getElementById("group-btnSurplus").click();
+                    }
+                    //Get value in datatable for del
                     $(".group-btnDel").click(function() {
                         var $id = $(this).closest("tr").find(".group-id").text(); 
                         var $sp = $(this).closest("tr").find(".group-sp").text();   
@@ -182,7 +259,7 @@
                         document.getElementById("groupDate-Modal").innerHTML = $date;
 
                     });
-                    function showModal(){
+                    function showModal2(){
                         document.getElementById("group-btnDel").click();
                     }
                 </script>

@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,14 @@ public class NThongKeGaDuFacade extends AbstractFacade<NThongKeGaDu> implements 
 
     public NThongKeGaDuFacade() {
         super(NThongKeGaDu.class);
+    }
+
+    @Override
+    public List<NThongKeGaDu> checkSurplus(String groupID) {
+        String sqlString = "select * from [NThongKeGaDu] where manhomga =?";
+        Query query = em.createNativeQuery(sqlString,NThongKeGaDu.class);
+        query.setParameter(1, groupID);  
+        return query.getResultList();
     }
     
 }

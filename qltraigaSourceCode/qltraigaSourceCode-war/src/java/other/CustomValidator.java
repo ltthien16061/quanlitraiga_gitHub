@@ -28,7 +28,7 @@ public class CustomValidator {
     public void validateNum(FacesContext f, UIComponent c, Object obj){
         int s=(int)obj;
         if(s<=0)
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_WARN, "Số lượng gà không hợp lệ",null));        
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_WARN, "Số lượng không hợp lệ",null));        
     }
     public void validateDate(FacesContext f, UIComponent c, Object obj) throws ParseException{
         if(obj==null){
