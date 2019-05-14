@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>        
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    </h:head>
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="feed">Danh Sách Lịch Ăn</h:link>         
+                            </li>
+                        </ol>
+                        <h4>Lịch Ăn Toàn Bộ</h4>            
+                        <!-- Datatable -->         
+                        <div class="table-responsive">
+                            <h:dataTable class="table" id="feed-dataTable" value="#{feedMB.showAllFeedschedule()}" var="item">                        
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Điểm Cho Ăn</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item.thoidiem}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column>  
+                                <h:column>
+                                    <f:facet name="header">Mã Nhóm</f:facet>
+                                    <h:outputText value="#{item.manhom.manhom}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Mã Nông Hộ</f:facet>
+                                    <h:outputText value="#{item.manongho.manongho}"/>
+                                </h:column> 
+                                <h:column>
+                                    <f:facet name="header">Mã Công Thức</f:facet>
+                                    <h:outputText value="#{item.macongthuc.maso}"/>
+                                </h:column> 
+                                <h:column>
+                                    <f:facet name="header">Khẩu Phần Ăn</f:facet>
+                                    <h:outputText value="#{item.khauphan}"/>
+                                </h:column>         
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item.thoigiancapnhat}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column>     
+                            </h:dataTable>
+                        </div>                        
+                    </div>
+                </div>  
+                
+                
+                
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable width
+                    $(document).ready(function() {
+                        $('#feed-dataTable').DataTable();
+                    } );
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>        
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    </h:head>
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="chicken-group">Nhóm Gà</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Lịch Trình Cho Ăn</li>
+                        </ol>
+                        <h4>Mã Nhóm : #{feedMB.groupID}</h4>  
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <h:link outcome="/food/feed-addgroup" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Cho Ăn </h:link>  
+                            </div>
+                            <div class="col textright">                                
+                                <!--Message Modal-->
+                                <h:panelGroup id="message-containt">
+                                    <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                                 warnStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                                 rendered="#{facesContext.messageList.size() gt 0}" />
+                                </h:panelGroup>
+                                 <!--Message Modal-->
+                            </div>
+                        </div>          
+                        <!-- Datatable -->         
+                        <div class="table-responsive">
+                            <h:dataTable class="table" id="groupFeed-dataTable" value="#{feedMB.feedList}" var="item">                            
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Gian Cho Ăn</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item[0]}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Mã Công Thức</f:facet>
+                                    <h:outputText value="#{item[1]}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Khẩu Phần</f:facet>
+                                    <h:outputText value="#{item[2]}"/>
+                                </h:column>         
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item[3]}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column> 
+                            </h:dataTable>
+                        </div>                        
+                    </div>
+                </div>  
+                
+                
+                
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable width
+                    $(document).ready(function() {
+                        $('#groupFeed-dataTable').DataTable();
+                    } );
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+

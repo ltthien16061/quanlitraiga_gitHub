@@ -77,7 +77,12 @@
                                 </h:column>   
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
-                                    <h:form class="textright">  
+                                    <h:form class="textright"> 
+                                        
+                                            <h:commandButton value="Lịch Ăn" class="btn btn-outline-success" 
+                                                             action="#{feedMB.showFeedscheduleByGroup(item[0])}" >
+                                            </h:commandButton>
+                                            <!--btn-group statistical-->
                                             <h:commandButton value="Thống Kê" class="btn btn-outline-info" 
                                                              action="#{chickenStatisticalMB.getGroupIDForShow(item[0])}" >
                                             </h:commandButton>

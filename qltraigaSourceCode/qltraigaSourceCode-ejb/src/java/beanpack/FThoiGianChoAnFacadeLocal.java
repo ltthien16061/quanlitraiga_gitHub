@@ -27,6 +27,10 @@ public interface FThoiGianChoAnFacadeLocal {
 
     List<FThoiGianChoAn> findRange(int[] range);
 
-    int count();
+    int count();    
+            
+    public List<Object[]> showAllByGroup(String groupID);
+    
+    public List<FThoiGianChoAn> showAllByDel();
     
 }

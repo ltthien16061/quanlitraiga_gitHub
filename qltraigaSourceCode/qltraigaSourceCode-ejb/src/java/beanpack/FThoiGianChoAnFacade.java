@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,21 @@ public class FThoiGianChoAnFacade extends AbstractFacade<FThoiGianChoAn> impleme
 
     public FThoiGianChoAnFacade() {
         super(FThoiGianChoAn.class);
+    }
+
+    @Override
+    public List<Object[]> showAllByGroup(String groupID) {        
+        String sqlString = "select b.thoidiem, b.macongthuc, b.khauphan, b.thoigiancapnhat from [GNhomGa] a, [FThoiGianChoAn] b where a.manhom = b.manhom and b.manhom = ? and b.xoa = 'false'";
+        Query query = em.createNativeQuery(sqlString);
+        query.setParameter(1, groupID); 
+        return query.getResultList();
+    }
+
+    @Override
+    public List<FThoiGianChoAn> showAllByDel() {
+        Query query = em.createNamedQuery("FThoiGianChoAn.findByXoa");
+        query.setParameter("xoa", false);
+        return query.getResultList();
     }
     
 }
