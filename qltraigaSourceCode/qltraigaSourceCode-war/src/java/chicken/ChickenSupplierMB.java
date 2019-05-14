@@ -104,10 +104,8 @@ public class ChickenSupplierMB extends CustomValidator implements Serializable {
         }
         public String deleteChickenSupplier() {
         try{
-            xoa = true;
-            
             GNhaCungCap nhacungcap = gNhaCungCapFacade.find(maso);
-            nhacungcap.setXoa(xoa);
+            nhacungcap.setXoa(true);
             gNhaCungCapFacade.edit(nhacungcap);
             FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Xóa Thành Công", null);
             FacesContext.getCurrentInstance().addMessage(null, fMsg);

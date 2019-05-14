@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                 <h:link outcome="vitamin">Vitamin</h:link>              
+                            </li>
+                            <li class="breadcrumb-item active">Thêm Mới</li>
+                        </ol>
+                        <!--Message Modal-->
+                        <h:panelGroup id="message-containt">
+                            <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                         errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;"                                          
+                                         warnStyle="display:none"
+                                         rendered="#{facesContext.messageList.size() gt 0}" />
+                        </h:panelGroup>
+                        <!--End Message Modal-->
+                        <!--Nọi dung trang của bạn sẽ nằm ở đây-->      
+                        <h:form class="myform" id="vitamin-addF">
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Tên Vitamin</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <h:inputText class="form-control" value="#{vitaminMB.ten}" id="vName" validator="#{vitaminMB.validateString}">
+                                        <f:ajax event="blur" execute="vitamin-addF" render="vNameValidate"/> 
+                                    </h:inputText>
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                    <h:message for="vName"  id="vNameValidate" style="color: red"/>
+                                </small>  
+                            </div>                        
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Giá Tiền</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <h:inputText class="form-control" value="#{vitaminMB.gia}" id="vPrice" required="true" requiredMessage="Giá Tiền Là Bắt Buộc!"
+                                                 validator="#{vitaminMB.validateNum}" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
+                                        <f:ajax event="blur" execute="vitamin-addF" render="vPriceValidate"/> 
+                                    </h:inputText>
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                   <h:message for="vPrice"  id="vPriceValidate" style="color: red"/>
+                                </small>                            
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Ngày Mua</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <p:calendar id="vDate" value="#{vitaminMB.ngaymua}" pattern="dd-MM-yyyy" validator="#{vitaminMB.validateDate}" >
+                                        <f:ajax event="blur" execute="vitamin-addF" render="vDateValidate"/> 
+                                    </p:calendar>                                        
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                   <h:message for="vDate"  id="vDateValidate" style="color: red"/>
+                                </small>
+                            </div> 
+                            
+                            <div class="form-group row">
+                                <div class="col-sm-10 offset-0 offset-sm-4 offset-xl-2">
+                                    <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{vitaminMB.addVitamin()}" />
+                                    <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3">
+                                        <p:ajax update="vitamin-addF" resetValues="true" />
+                                    </h:commandButton>
+                                </div>
+                            </div>                            
+                        </h:form>                        
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+

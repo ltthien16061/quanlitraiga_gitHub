@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,13 @@ public class FVitaminFacade extends AbstractFacade<FVitamin> implements FVitamin
 
     public FVitaminFacade() {
         super(FVitamin.class);
+    }
+
+    @Override
+    public List<FVitamin> showAllwithNotDel() {
+        Query query = em.createNamedQuery("FVitamin.findByXoa");
+        query.setParameter("xoa", false);
+        return query.getResultList();
     }
     
 }

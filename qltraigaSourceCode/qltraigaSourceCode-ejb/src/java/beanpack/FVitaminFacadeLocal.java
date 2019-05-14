@@ -29,4 +29,5 @@ public interface FVitaminFacadeLocal {
 
     int count();
     
+    public List<FVitamin> showAllwithNotDel();
 }
