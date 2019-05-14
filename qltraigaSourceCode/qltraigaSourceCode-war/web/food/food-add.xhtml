@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                         <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="food">Thức Ăn</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Thêm Mới</li>
+                        </ol>  
+                        <!--Message Modal-->
+                        <h:panelGroup id="message-containt">
+                            <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                         errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                         warnStyle="display:none"
+                                         rendered="#{facesContext.messageList.size() gt 0}" />
+                        </h:panelGroup>
+                        <!--End Message Modal-->
+                        <!--Nọi dung trang của bạn sẽ nằm ở đây-->   
+                        <div class="table-responsive animated food-addtb">
+                            <h3>Chọn Loại Thức Ăn :</h3>
+                            <h:dataTable class="table" id="foodAdd-dataTable" value="#{foodMB.showAllFoodKind()}" var="item">
+                                <h:column>
+                                    <f:facet name="header">ID</f:facet>
+                                    <h:outputText value="#{item.maso}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Tên Loại Thức Ăn</f:facet>
+                                    <h:outputText class="sp-name" value="#{item.tenloai}"/>
+                                </h:column>  
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter"></div></f:facet>
+                                    <h:form class="textright">
+                                        <h:commandButton  value="Chọn" class="btn btn-outline-info ml-2" onclick="foodClick()"
+                                                          actionListener="#{foodMB.getIdForAdd(item.maso)}">
+                                            <f:ajax execute="@form" render="@none" />
+                                        </h:commandButton>   
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>
+                        </div> 
+                        
+                        
+                        
+                        <h:form class="myform food-addF animated hidden">                            
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Tên Thức Ăn : </label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <h:inputText class="form-control" value="#{foodMB.ten}" id="fName" validator="#{foodMB.validateString}">
+                                        <f:ajax event="blur" execute="food-addF" render="fNameValidate"/> 
+                                    </h:inputText>
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                   <h:message for="fName"  id="fNameValidate" style="color: red"/>
+                                </small>                            
+                            </div>                          
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Giá Tiền</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <h:inputText class="form-control" value="#{foodMB.gia}" id="fPrice" required="true" requiredMessage="Giá Tiền Là Bắt Buộc!"
+                                                 validator="#{foodMB.validateNum}" onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
+                                        <f:ajax event="blur" execute="food-addF" render="fPriceValidate"/> 
+                                    </h:inputText>
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                   <h:message for="fPrice"  id="fPriceValidate" style="color: red"/>
+                                </small>                            
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Ngày Mua</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <p:calendar id="foodDate" value="#{foodMB.ngaymua}" pattern="dd-MM-yyyy" validator="#{foodMB.validateDate}" >
+                                        <f:ajax event="blur" execute="food-addF" render="foodDateValidate"/> 
+                                    </p:calendar>                                        
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                   <h:message for="foodDate"  id="foodDateValidate" style="color: red"/>
+                                </small>
+                            </div> 
+                            
+                            <div class="form-group row">
+                                <div class="col-sm-10 offset-0 offset-sm-4 offset-xl-2">
+                                    <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{foodMB.addFood()}" />
+                                    <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3" onclick="foodReset()" >
+                                        <f:ajax execute="@form" render="@none" />
+                                    </h:commandButton>
+                                </div>
+                            </div>                            
+                        </h:form>                        
+                    </div>
+                </div>
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable chicken supplier
+                    $(document).ready(function() {
+                        $('#foodAdd-dataTable').DataTable();
+                    } );
+                    function foodClick(){
+
+                        $('.food-addF').removeClass('fadeOutLeft');
+                        $('.food-addF').removeClass('fadeOutRight');
+                        $('.food-addtb').removeClass('fadeInRight');
+                        $('.food-addtb').removeClass('fadeInLeft');
+
+                        $('.food-addtb').addClass('fadeOutLeft');
+                        $('.food-addtb').delay(2000).addClass('hidden');
+                        $('.food-addF').delay(1000).removeClass('hidden');
+                        $('.food-addF').addClass('fadeInRight');
+                    }
+                    function foodReset(){    
+                        $('.food-addF').removeClass('fadeInRight');
+                        $('.food-addtb').removeClass('fadeOutLeft');
+
+                        $('.food-addF').addClass('fadeOutRight');
+                        $('.food-addF').delay(2000).addClass('hidden');
+                        $('.food-addtb').delay(1000).removeClass('hidden');
+                        $('.food-addtb').addClass('fadeInLeft');
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+

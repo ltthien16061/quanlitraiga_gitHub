@@ -40,5 +40,12 @@ public class FLoaiThucAnFacade extends AbstractFacade<FLoaiThucAn> implements FL
         Query query = em.createNativeQuery(sqlString);
         return query.getResultList();
     }
+
+    @Override
+    public List<FLoaiThucAn> showKindForAddFood() {
+         Query query = em.createNamedQuery("FLoaiThucAn.findByXoa");
+        query.setParameter("xoa", false);
+        return query.getResultList();
+    }
     
 }

@@ -29,4 +29,7 @@ public interface FThucAnFacadeLocal {
 
     int count();
     
+    public List<FThucAn> showFoodByKind(int kindID);
+    
+    public List<Object[]> showFoodByDel();
 }

@@ -88,8 +88,9 @@
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
                                     <h:form class="textright">
+                                        <!--Food List-->
                                         <h:commandButton value="Danh Sách Thức Ăn" class="btn btn-outline-info" 
-                                                         action="index" >
+                                                         action="#{food2MB.showFoodByKind(item[0], item[1])}" >
                                         </h:commandButton>
                                         <!--Edit-->
                                         <h:commandButton  value="Cập Nhật" class="btn btn-outline-warning fk-btnEdit ml-2" onclick="showModalEdit()"

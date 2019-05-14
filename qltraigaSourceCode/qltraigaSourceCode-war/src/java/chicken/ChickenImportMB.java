@@ -102,6 +102,7 @@ public class ChickenImportMB extends CustomValidator implements Serializable {
       //Find the row to edit
     public String editChickenImport(int idCKImport) {
         maso = idCKImport;
+        macc = gDotNhapGaGiongFacade.find(maso).getMasocc().getMaso();
         tuoi = gDotNhapGaGiongFacade.find(maso).getDotuoi();
         soluong = gDotNhapGaGiongFacade.find(maso).getSoluongnhap();
         conlai = gDotNhapGaGiongFacade.find(maso).getSoluongconlai();

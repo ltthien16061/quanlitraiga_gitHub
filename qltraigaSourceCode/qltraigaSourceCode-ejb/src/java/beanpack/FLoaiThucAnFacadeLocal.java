@@ -31,4 +31,6 @@ public interface FLoaiThucAnFacadeLocal {
         
     public List<Object[]> showAllwithNotDel();
     
+    public List<FLoaiThucAn> showKindForAddFood();
+    
 }

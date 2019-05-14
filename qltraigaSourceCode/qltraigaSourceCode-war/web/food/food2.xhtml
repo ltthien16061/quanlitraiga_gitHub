@@ -16,34 +16,30 @@
                         <!-- Breadcrumbs-->
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                  <h:link outcome="chicken-supplier">Đợt Nhập Gà Giống</h:link>         
+                                  <h:link outcome="food-kind">Thức Ăn</h:link>         
                             </li>
                             <li class="breadcrumb-item active">Danh Sách</li>
                         </ol>
-                        <h4>Nguồn : #{chickenImport2MB.ten} - #{chickenImport2MB.code}</h4>         
+                        <h4>Loại Thức Ăn : #{food2MB.kindName}</h4>            
                         <!-- Datatable -->         
                         <div class="table-responsive">
-                            <h:dataTable class="table" id="ckimport2-dataTable" value="#{chickenImport2MB.chickenimport}" var="item">                            
+                            <h:dataTable class="table" id="food2-dataTable" value="#{food2MB.foodList}" var="item">   
                                 <h:column>
-                                    <f:facet name="header"><div class="textcenter">Thời Gian Nhập</div></f:facet>
+                                    <f:facet name="header">Tên Thức Ăn</f:facet>
+                                    <h:outputText value="#{item.ten}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Giá Tiền</f:facet>
+                                    <h:outputText value="#{item.gia}"/>
+                                </h:column>                         
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Ngày Mua</div></f:facet>
                                     <div class="textcenter">
-                                        <h:outputText value="#{item.thoigiannhap}" >
+                                        <h:outputText value="#{item.ngaymua}" >
                                             <f:convertDateTime pattern="dd/MM/yyyy" />
                                         </h:outputText>
                                     </div>                                    
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Độ Tuổi</f:facet>
-                                    <h:outputText value="#{item.dotuoi}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Số Lượng Nhập</f:facet>
-                                    <h:outputText value="#{item.soluongnhap}"/>
-                                </h:column>
-                                <h:column >
-                                    <f:facet name="header">Số Lượng Còn Lại</f:facet>
-                                    <h:outputText value="#{item.soluongconlai}"/>
-                                </h:column>          
+                                </h:column>         
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
                                     <div class="textcenter">
@@ -64,7 +60,7 @@
                 <script>
                     //Set datatable width
                     $(document).ready(function() {
-                        $('#ckimport2-dataTable').DataTable();
+                        $('#food2-dataTable').DataTable();
                     } );
                 </script>
             </ui:define>
