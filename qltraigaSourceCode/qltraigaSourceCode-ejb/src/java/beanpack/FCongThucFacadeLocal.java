@@ -29,4 +29,9 @@ public interface FCongThucFacadeLocal {
 
     int count();
     
+    public List<Object[]> showRecipeForFood(int foodID);
+    
+    public List<Object[]> showRecipeForVitamin(int VitaminID);
+    
+    public List<Object[]> showAllRecipe();
 }

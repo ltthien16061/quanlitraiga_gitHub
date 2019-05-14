@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="recipe">Công Thức</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Tạo Công Thức</li>
+                        </ol> 
+                        <!--Food Part-->
+                        <div class="recipe-foodContaint animated fadeInRight">
+                            <h3>Chọn Thức Ăn :</h3>                            
+                            <div class="row pb-3">
+                                <fieldset class="border p-2 mx-2 col-md-3 col-12">
+                                    <legend  class="w-auto"> Số lượng thức ăn </legend>
+                                    <h:form id="recipefood-addF">
+                                        <h:inputText class="form-control" value="#{recipeMB.foodQuantity}" id="recipe-addFQuantity" required="true" 
+                                                     requiredMessage="Số lượng thức ăn là bắt buộc!"
+                                                     onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
+                                              <f:ajax event="blur" execute="recipefood-addF" render="recipeAddFQValidate"/> 
+                                        </h:inputText>
+                                        <small class="form-text text-muted">
+                                           <h:message for="recipe-addFQuantity"  id="recipeAddFQValidate" style="color: red"/>
+                                        </small> 
+                                    </h:form>
+                                 </fieldset>
+                                <div class="col textright">                                
+                                    <!--Message Modal-->
+                                    <h:panelGroup id="message-containt">
+                                        <h:messages  style="padding-top: 18px" 
+                                                     infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                                     warnStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;"
+                                                     rendered="#{facesContext.messageList.size() gt 0}" />
+                                    </h:panelGroup>
+                                     <!--Message Modal-->
+                                </div>
+                            </div> 
+                            <div class="table-responsive">
+                                <h:dataTable class="table" id="recipeAddF-dataTable" value="#{foodMB.showAllFood()}" var="item">
+                                    <h:column>
+                                        <f:facet name="header">Tên Thức Ăn</f:facet>
+                                        <h:outputText class="food-name" value="#{item[2]}"/>
+                                    </h:column> 
+                                    <h:column>
+                                        <f:facet name="header">Loại Thức Ăn</f:facet>
+                                        <h:outputText class="food-kind" value="#{item[7]}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Giá Tiền</f:facet>
+                                        <h:outputText class="food-price" value="#{item[3]}"/>
+                                    </h:column>                       
+                                    <h:column>
+                                        <f:facet name="header"><div class="textcenter">Ngày Mua</div></f:facet>
+                                        <div class="textcenter">
+                                            <h:outputText class="food-buytime" value="#{item[4]}" >
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </h:outputText>
+                                        </div>                                    
+                                    </h:column>          
+                                    <h:column>
+                                        <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
+                                        <div class="textcenter">
+                                            <h:outputText class="food-update" value="#{item[5]}" >
+                                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                                            </h:outputText>
+                                        </div>                                    
+                                    </h:column>  
+                                    <h:column>
+                                        <f:facet name="header"><div class="textcenter"></div></f:facet>
+                                        <h:form class="textcenter">
+                                            <h:commandButton  value="Chọn" class="btn btn-outline-info" onclick="checkFood()"
+                                                              actionListener="#{recipeMB.getFoodInfoForAdd(item[0], item[2])}">
+                                                   <f:ajax execute="@form" render="@none" />
+                                            </h:commandButton>
+                                            <button type="button" id="switchVitamin-btn" class="hidden" onclick="showVitamin()"></button>
+                                        </h:form>
+                                    </h:column>
+                                </h:dataTable>  
+                            </div>         
+                        </div>
+                        
+                        <!--Vitamin Part-->
+                        <div class="recipe-vitaminContaint animated hidden">
+                            <h3>Chọn Vitamin :</h3>                            
+                            <h:form>
+                                <button type="button" class="btn btn-outline-primary mr-2" onclick="showFood()">Quay Lại</button>   
+                                <h:commandButton  value="Bỏ Qua" class="btn btn-outline-danger" action="#{recipeMB.skipVitamin()}"/>
+                            </h:form>                       
+                       
+                            <div class="row pb-3">
+                                <fieldset class="border p-2 mx-2 col-md-3 col-12">
+                                    <legend  class="w-auto"> Số lượng vitamin </legend>
+                                    <h:form id="recipevitamin-addF">
+                                        <h:inputText class="form-control" value="#{recipeMB.vitaminQuantity}" id="recipe-addVQuantity" required="true" 
+                                                     requiredMessage="Số lượng vitamin là bắt buộc!" validator="#{recipeMB.validateNum}"
+                                                     onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
+                                              <f:ajax event="blur" execute="recipevitamin-addF" render="recipeAddVQValidate"/> 
+                                        </h:inputText>
+                                        <small class="form-text text-muted">
+                                           <h:message for="recipe-addVQuantity"  id="recipeAddVQValidate" style="color: red"/>
+                                        </small> 
+                                    </h:form>
+                                 </fieldset>
+                            </div> 
+                            <div class="table-responsive">
+                                <h:dataTable class="table" id="recipeAddV-dataTable" value="#{vitaminMB.showAllVitamin()}" var="item">
+                                      <h:column>
+                                    <f:facet name="header">Tên Vitamin</f:facet>
+                                    <h:outputText class="vitaminName" value="#{item.ten}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Giá Tiền</f:facet>
+                                    <h:outputText class="vitaminPrice" value="#{item.gia}"/>
+                                </h:column>                             
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Ngày Mua</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText class="vitaminDate" value="#{item.ngaymua}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column>                          
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item.thoigiancapnhat}" >
+                                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column>
+                                    <h:column>
+                                        <f:facet name="header"><div class="textcenter"></div></f:facet>
+                                        <h:form class="textcenter">
+                                            <h:commandButton  value="Chọn" class="btn btn-outline-info" action="#{recipeMB.getVitaminInfoForAdd(item.maso,item.ten)}"/>
+                                        </h:form>
+                                    </h:column>
+                                </h:dataTable>  
+                            </div>         
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable chicken supplier
+                    $(document).ready(function() {
+                        $('#recipeAddF-dataTable').DataTable();
+                        $('#recipeAddV-dataTable').DataTable();
+                    } );  
+                    //Check food quantity
+                    function checkFood(){
+                        var $num = document.getElementById("recipefood-addF:recipe-addFQuantity").value;
+                        if($num == null || $num == 0){ //If quantity is invalid
+                            return;
+                        }else{ //if quantity is correct
+                            //hide food show vitamin
+                            $('#switchVitamin-btn').click();
+                        }                        
+                    } 
+                    function showVitamin(){
+                        $('.recipe-vitaminContaint').removeClass('fadeOutLeft');
+                        $('.recipe-vitaminContaint').removeClass('fadeOutRight');
+                        $('.recipe-foodContaint').removeClass('fadeInRight');
+                        $('.recipe-foodContaint').removeClass('fadeInLeft');
+
+                        $('.recipe-foodContaint').addClass('fadeOutLeft');
+                        $('.recipe-foodContaint').delay(2000).addClass('hidden');
+                        $('.recipe-vitaminContaint').delay(1000).removeClass('hidden');
+                        $('.recipe-vitaminContaint').addClass('fadeInRight');
+                    } 
+                    function showFood(){
+                        $('.recipe-vitaminContaint').removeClass('fadeInRight');
+                        $('.recipe-foodContaint').removeClass('fadeOutLeft');
+
+                        $('.recipe-vitaminContaint').addClass('fadeOutRight');
+                        $('.recipe-vitaminContaint').delay(2000).addClass('hidden');
+                        $('.recipe-foodContaint').delay(1000).removeClass('hidden');
+                        $('.recipe-foodContaint').addClass('fadeInLeft');
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+

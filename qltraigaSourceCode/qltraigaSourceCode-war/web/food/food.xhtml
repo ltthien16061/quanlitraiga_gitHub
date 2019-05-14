@@ -73,7 +73,7 @@
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
                                     <h:form class="textright">
                                         <h:commandButton value="Công Thức Đang Chứa" class="btn btn-outline-info" 
-                                                         action="index" >
+                                                         action="#{recipe2MB.showRecipebyFood(item[0], item[2])}" >
                                         </h:commandButton>
                                         <h:commandButton value="Cập Nhật" class="btn btn-outline-primary ml-2" 
                                                          action="#{foodMB.editFood(item[0])}" >

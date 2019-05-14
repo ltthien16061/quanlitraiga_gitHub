@@ -16,14 +16,14 @@
                         <!-- Breadcrumbs-->
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                  <h:link outcome="vitamin">Vitamin</h:link>         
+                                  <h:link outcome="recipe">Công Thức</h:link>         
                             </li>
                             <li class="breadcrumb-item active">Danh Sách</li>
                         </ol>
-                        <h3>Danh Sách Vitamin Bổ Sung</h3> 
+                        <h3>Danh Sách Công Thức</h3> 
                         <div class="row">
                             <div class="col-md-6 col-12">
-                                <h:link outcome="vitamin-add" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Thêm Mới </h:link>  
+                                <h:link outcome="recipe-add" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Thêm Mới </h:link>  
                             </div>
                             <div class="col textright">                                
                                 <!--Message Modal-->
@@ -39,27 +39,35 @@
                         <!-- Datatable -->                       
                         
                         <div class="table-responsive">
-                            <h:dataTable class="table" id="vitamin-dataTable" value="#{vitaminMB.showAllVitamin()}" var="item">
+                            <h:dataTable class="table" id="recipe-dataTable" value="#{recipeMB.showAllRecipe()}" var="item">
                                 <h:column>
-                                    <f:facet name="header">Tên Vitamin</f:facet>
-                                    <h:outputText class="vitaminName" value="#{item.ten}"/>
+                                    <f:facet name="header">Mã Số</f:facet>
+                                    <h:outputText class="re-id" value="#{item[0]}"/>
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Giá Tiền</f:facet>
-                                    <h:outputText class="vitaminPrice" value="#{item.gia}"/>
-                                </h:column>                             
+                                    <f:facet name="header">Tên Thức Ăn</f:facet>
+                                    <h:outputText class="re-fName" value="#{item[2]==null?'Không sử dụng':item[2]}"/>
+                                </h:column>
                                 <h:column>
-                                    <f:facet name="header"><div class="textcenter">Ngày Mua</div></f:facet>
-                                    <div class="textcenter">
-                                        <h:outputText class="vitaminDate" value="#{item.ngaymua}" >
-                                            <f:convertDateTime pattern="dd-MM-yyyy" />
-                                        </h:outputText>
-                                    </div>                                    
-                                </h:column>                          
+                                    <f:facet name="header">Số Lượng Thức Ăn</f:facet>
+                                    <h:outputText class="re-fQuantity" value="#{item[3]}"/>
+                                </h:column>   
                                 <h:column>
-                                    <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
+                                    <f:facet name="header">Tên Vitamin</f:facet>
+                                    <h:outputText class="re-vName" value="#{item[5]==null?'Không sử dụng':item[5]}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Số Lượng Vitamin</f:facet>
+                                    <h:outputText class="re-vQuantity" value="#{item[6]}"/>
+                                </h:column>  
+                                <h:column>
+                                    <f:facet name="header">Mô Tả</f:facet>
+                                    <h:outputText class="re-Desription" value="#{item[7]}"/>
+                                </h:column>                            
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Cập Nhật</div></f:facet>
                                     <div class="textcenter">
-                                        <h:outputText value="#{item.thoigiancapnhat}" >
+                                        <h:outputText value="#{item[8]}" >
                                             <f:convertDateTime pattern="dd-MM-yyyy" />
                                         </h:outputText>
                                     </div>                                    
@@ -67,17 +75,14 @@
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
                                     <h:form class="textright">
-                                        <h:commandButton value="Công Thức Đang Chứa" class="btn btn-outline-info" 
-                                                         action="#{recipe2MB.showRecipebyVitamin(item.maso, item.ten)}" >
-                                        </h:commandButton>
                                         <h:commandButton value="Cập Nhật" class="btn btn-outline-primary ml-2" 
-                                                         action="#{vitaminMB.editVitamin(item.maso)}" >
+                                                         action="#{recipeMB.getIdForEdit(item[0])}">
                                         </h:commandButton>
-                                        <h:commandButton  value="Xóa" class="btn btn-outline-danger vitamin-btnDel ml-2" onclick="showModal()"
-                                                          actionListener="#{vitaminMB.getIdFormView(item.maso)}">
+                                        <h:commandButton  value="Xóa" class="btn btn-outline-danger re-btnDel ml-2" onclick="showModal()"
+                                                          actionListener="#{recipeMB.getIdForDel(item[0], item[1], item[4])}">
                                             <f:ajax execute="@form" render="@none" />
                                         </h:commandButton>
-                                        <button type="button" data-toggle="modal" data-target="#vitaminDelModal" style="display: none" id="vitamin-btnDel">Xóa</button>    
+                                        <button type="button" data-toggle="modal" data-target="#reDelModal" style="display: none" id="re-btnDel">Xóa</button>    
                                     </h:form>
                                 </h:column>
                             </h:dataTable>
@@ -85,7 +90,7 @@
                     </div>
                 </div>  
                 <!-- Modal -->
-                <div class="modal fade" id="vitaminDelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="reDelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -97,33 +102,49 @@
                       <div class="modal-body">
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-4">
-                                <p class="small-title pt-1">Tên Vitamin Bổ Sung :</p>
+                                <p class="small-title pt-1">Mã Công Thức :</p>
                             </div>
                             <div class="col" >
-                               <p id="vName-Modal"></p>
+                               <p id="reID-Modal"></p>
                             </div>
                         </div> 
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-4">
-                                <p class="small-title pt-1">Giá Tiền :</p>
+                                <p class="small-title pt-1">Tên Thức Ăn :</p>
                             </div>
                             <div class="col" >
-                                <p id="vPrice-Modal"></p>
+                               <p id="refName-Modal"></p>
                             </div>
                         </div> 
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-4">
-                                <p class="small-title pt-1">Ngày Mua :</p>
+                                <p class="small-title pt-1">Số Lượng Thức Ăn :</p>
                             </div>
                             <div class="col" >
-                                <p id="vDate-Modal"></p>
+                              <p id="refQuan-Modal"></p>
+                            </div>
+                        </div> 
+                        <div class="form-group row">
+                            <div class="col-sm-12 col-md-4">
+                                <p class="small-title pt-1">Tên Vitamin :</p>
+                            </div>
+                            <div class="col" >
+                               <p id="revName-Modal"></p>
+                            </div>
+                        </div> 
+                        <div class="form-group row">
+                            <div class="col-sm-12 col-md-4">
+                                <p class="small-title pt-1">Số Lượng Vitamin :</p>
+                            </div>
+                            <div class="col" >
+                                <p id="revQuan-Modal"></p>
                             </div>
                         </div> 
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
                         <h:form>
-                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{vitaminMB.deleteVitamin()}" />
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{recipeMB.deleteRecipe()}" />
                         </h:form>                        
                       </div>
                     </div>
@@ -136,20 +157,25 @@
                 <script>
                     //Set datatable width
                     $(document).ready(function() {
-                        $('#vitamin-dataTable').DataTable();
+                        $('#recipe-dataTable').DataTable( );
                     } );
                     //Get value in datatable
-                    $(".vitamin-btnDel").click(function() {
-                        var $name = $(this).closest("tr").find(".vitaminName").text();
-                        var $price = $(this).closest("tr").find(".vitaminPrice").text(); 
-                        var $date = $(this).closest("tr").find(".vitaminDate").text();            
-                        document.getElementById("vName-Modal").innerHTML = $name;           
-                        document.getElementById("vPrice-Modal").innerHTML = $price;             
-                        document.getElementById("vDate-Modal").innerHTML = $date;     
+                    $(".re-btnDel").click(function() {
+                        var $id = $(this).closest("tr").find(".re-id").text(); 
+                        var $fname = $(this).closest("tr").find(".re-fName").text(); 
+                        var $fquan = $(this).closest("tr").find(".re-fQuantity").text(); 
+                        var $vname = $(this).closest("tr").find(".re-vName").text();   
+                        var $vquan = $(this).closest("tr").find(".re-vQuantity").text();   
+                        
+                        document.getElementById("reID-Modal").innerHTML = $id;   
+                        document.getElementById("refName-Modal").innerHTML = $fname;
+                        document.getElementById("refQuan-Modal").innerHTML = $fquan;   
+                        document.getElementById("revName-Modal").innerHTML = $vname;
+                        document.getElementById("revQuan-Modal").innerHTML = $vquan;
 
                     });
                     function showModal(){
-                        document.getElementById("vitamin-btnDel").click();
+                        document.getElementById("re-btnDel").click();
                     }
                 </script>
             </ui:define>
