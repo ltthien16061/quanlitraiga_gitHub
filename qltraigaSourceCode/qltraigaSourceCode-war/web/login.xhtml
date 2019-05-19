@@ -8,12 +8,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <!--Style.css-->
-        <link href="asset/css/style.css" rel="stylesheet"/>
+        <h:outputStylesheet name="css/style.css"/>
         <!--logo icon page-->
-        <link rel="shortcut icon" href="asset/images/favicon.ico"/>
+        <link rel="shortcut icon" href="#"/>
         <title>Login - MOPF</title>
-        <link href="asset/css/sb-admin.css" rel="stylesheet"/>   
-        <link href="asset/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <h:outputStylesheet name="css/sb-admin.css"/>
+        <h:outputStylesheet library="fontawesome-free" name="css/all.css"/> 
     </h:head>
     <h:body class="bg-login">
         <div class="container">
@@ -32,10 +32,10 @@
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                    <h:inputText class="form-control" id="password" value="#{accountMB.password}" validator="#{accountMB.validatePass}" validatorMessage="Mật Khẩu Không Hợp Lệ">
+                    <h:inputSecret class="form-control" id="password" value="#{accountMB.password}" validator="#{accountMB.validatePass}" validatorMessage="Mật Khẩu Không Hợp Lệ">
                         <f:validateRegex pattern="^[a-zA-Z0-9]{5,16}$" />
                         <f:ajax event="blur" execute="loginF" render="passValidate"/> 
-                    </h:inputText>
+                    </h:inputSecret>
                     <label for="inputPassword">Mật Khẩu :</label>
                 </div>
               </div>
@@ -53,10 +53,10 @@
       </div>
 
       <!-- Bootstrap core JavaScript-->
-    <script src="asset/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="asset/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="resources/primefaces/jquery/jquery.js"></script>
+        <script src="resources/bootstrap/js/bootstrap.bundle.min.js"></script>
       <!-- Core plugin JavaScript-->
-    <script src="asset/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="resources/jquery-easing/jquery.easing.min.js"></script>
     </h:body>
 </html>
 

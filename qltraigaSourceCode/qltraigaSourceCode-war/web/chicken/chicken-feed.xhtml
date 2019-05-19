@@ -42,7 +42,7 @@
                                     <f:facet name="header"><div class="textcenter">Thời Gian Cho Ăn</div></f:facet>
                                     <div class="textcenter">
                                         <h:outputText value="#{item[0]}" >
-                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy" />
                                         </h:outputText>
                                     </div>                                    
                                 </h:column>
@@ -58,7 +58,7 @@
                                     <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
                                     <div class="textcenter">
                                         <h:outputText value="#{item[3]}" >
-                                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
                                         </h:outputText>
                                     </div>                                    
                                 </h:column> 

@@ -5,12 +5,17 @@
  */
 package other;
 
+import beanpack.NTaiKhoan;
 import beanpack.NTaiKhoanFacadeLocal;
+import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -21,13 +26,13 @@ import javax.faces.validator.ValidatorException;
  * @author Baotiso Laptop
  */
 @Named(value = "accountMB")
-@RequestScoped
-public class AccountMB {
+@SessionScoped
+public class AccountMB  extends CustomValidator implements Serializable {
 
     @EJB
     private NTaiKhoanFacadeLocal nTaiKhoanFacade;
     
-    private String id;
+    private int id;
     private String username;
     private String password;
 
@@ -37,9 +42,23 @@ public class AccountMB {
     public AccountMB() {
     }
     
-    public String login(){
+    public List<NTaiKhoan> showAllAccount() {
+        List<NTaiKhoan> listAccount = new ArrayList<NTaiKhoan>();
+        listAccount = nTaiKhoanFacade.findAll();
+        return listAccount;
+    }
+
+    public String login() throws NoSuchAlgorithmException{
         List<Object[]> listGroups = new ArrayList<Object[]>();
-        listGroups = nTaiKhoanFacade.findAccount(username, password);
+        //Create md5 pass
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                byte[] hashInBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+                StringBuilder sb = new StringBuilder();
+                for (byte b : hashInBytes) {
+                    sb.append(String.format("%02x", b));
+                }
+        listGroups = nTaiKhoanFacade.findAccount(username, sb.toString());
         if(listGroups.isEmpty()){
             FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Thông Tin Không Chính Xác!", null);
             FacesContext.getCurrentInstance().addMessage("loginfail", fMsg);
@@ -49,6 +68,52 @@ public class AccountMB {
             return "index";
         }
     }
+    
+     //Add
+    public String addAccount() {
+        try{
+            NTaiKhoan taikhoan = new NTaiKhoan();
+            taikhoan.setTentk(username);
+            //Create md5 pass
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                byte[] hashInBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+                StringBuilder sb = new StringBuilder();
+                for (byte b : hashInBytes) {
+                    sb.append(String.format("%02x", b));
+                }
+                
+            taikhoan.setMatkhau(sb.toString());
+            nTaiKhoanFacade.create(taikhoan);
+            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thêm Thành Công", null);
+            FacesContext.getCurrentInstance().addMessage(null, fMsg);
+            return "account";
+            }catch(Exception ex){
+            ex.printStackTrace();
+            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Thêm (Có thể tài khoản đã tồn tại!)", null);
+            FacesContext.getCurrentInstance().addMessage(null, fMsg);
+            return "account-add";
+        }
+    }
+    
+    //Delete 
+    public void getIdForDel(int accID){
+        id = accID;
+        System.out.println("Account ID :"+id);
+    }
+    public String deleteAcc(){
+        try{
+            NTaiKhoan taikhoan = nTaiKhoanFacade.find(id);
+            nTaiKhoanFacade.remove(taikhoan);
+            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Xóa Thành Công", null);
+            FacesContext.getCurrentInstance().addMessage(null, fMsg);
+        }catch(Exception ex){
+            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Xóa", null);
+            FacesContext.getCurrentInstance().addMessage(null, fMsg);
+        }
+        return  "account";
+    }
+    
     //validate
     public void validateName(FacesContext f, UIComponent c, Object obj){
         String s=(String)obj;
@@ -60,11 +125,11 @@ public class AccountMB {
         if(s.length()==0)
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,"Mật Khẩu Không Được Rỗng!",null));        
     }
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

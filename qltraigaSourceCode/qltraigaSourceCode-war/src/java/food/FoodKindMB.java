@@ -93,19 +93,19 @@ public class FoodKindMB extends CustomValidator implements Serializable {
             maso = idKind;
         }
         public String deleteKindOfFood() {
-        try{
-            xoa = true;
-            FLoaiThucAn loaithucan = fLoaiThucAnFacade.find(maso);
-            loaithucan.setXoa(xoa);
-            fLoaiThucAnFacade.edit(loaithucan);
-            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Xóa Thành Công", null);
-            FacesContext.getCurrentInstance().addMessage(null, fMsg);
-        }catch(Exception ex){
-            FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Xóa", null);
-            FacesContext.getCurrentInstance().addMessage(null, fMsg);
+            try{
+                xoa = true;
+                FLoaiThucAn loaithucan = fLoaiThucAnFacade.find(maso);
+                loaithucan.setXoa(xoa);
+                fLoaiThucAnFacade.edit(loaithucan);
+                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Xóa Thành Công", null);
+                FacesContext.getCurrentInstance().addMessage(null, fMsg);
+            }catch(Exception ex){
+                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Xóa", null);
+                FacesContext.getCurrentInstance().addMessage(null, fMsg);
+            }
+            return  "food-kind";
         }
-        return  "food-kind";
-    }
     public int getMaso() {
         return maso;
     }

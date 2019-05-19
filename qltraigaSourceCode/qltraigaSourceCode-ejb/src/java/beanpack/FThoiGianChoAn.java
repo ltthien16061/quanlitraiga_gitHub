@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "FThoiGianChoAn.findAll", query = "SELECT f FROM FThoiGianChoAn f")
+    , @NamedQuery(name = "FThoiGianChoAn.findByMaso", query = "SELECT f FROM FThoiGianChoAn f WHERE f.maso = :maso")
     , @NamedQuery(name = "FThoiGianChoAn.findByThoidiem", query = "SELECT f FROM FThoiGianChoAn f WHERE f.thoidiem = :thoidiem")
     , @NamedQuery(name = "FThoiGianChoAn.findByKhauphan", query = "SELECT f FROM FThoiGianChoAn f WHERE f.khauphan = :khauphan")
     , @NamedQuery(name = "FThoiGianChoAn.findByThoigiancapnhat", query = "SELECT f FROM FThoiGianChoAn f WHERE f.thoigiancapnhat = :thoigiancapnhat")
@@ -38,6 +41,11 @@ public class FThoiGianChoAn implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    //Custom by Thien
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "maso")
+    private Integer maso;
     @Basic(optional = false)
     @NotNull
     @Column(name = "thoidiem")
@@ -67,14 +75,22 @@ public class FThoiGianChoAn implements Serializable {
     public FThoiGianChoAn() {
     }
 
-    public FThoiGianChoAn(Date thoidiem) {
-        this.thoidiem = thoidiem;
+    public FThoiGianChoAn(Integer maso) {
+        this.maso = maso;
     }
 
-    public FThoiGianChoAn(Date thoidiem, int khauphan, boolean xoa) {
+    public FThoiGianChoAn(Integer maso,Date thoidiem, int khauphan, boolean xoa) {
+        this.maso = maso;
         this.thoidiem = thoidiem;
         this.khauphan = khauphan;
         this.xoa = xoa;
+    }
+    public Integer getMaso() {
+        return maso;
+    }
+
+    public void setMaso(Integer maso) {
+        this.maso = maso;
     }
 
     public Date getThoidiem() {
@@ -136,7 +152,7 @@ public class FThoiGianChoAn implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (thoidiem != null ? thoidiem.hashCode() : 0);
+        hash += (maso != null ? maso.hashCode() : 0);
         return hash;
     }
 
@@ -147,7 +163,7 @@ public class FThoiGianChoAn implements Serializable {
             return false;
         }
         FThoiGianChoAn other = (FThoiGianChoAn) object;
-        if ((this.thoidiem == null && other.thoidiem != null) || (this.thoidiem != null && !this.thoidiem.equals(other.thoidiem))) {
+        if ((this.maso == null && other.maso != null) || (this.maso != null && !this.maso.equals(other.maso))) {
             return false;
         }
         return true;
@@ -155,7 +171,7 @@ public class FThoiGianChoAn implements Serializable {
 
     @Override
     public String toString() {
-        return "beanpack.FThoiGianChoAn[ thoidiem=" + thoidiem + " ]";
+        return "beanpack.FThoiGianChoAn[ maso=" + maso + " ]";
     }
     
 }

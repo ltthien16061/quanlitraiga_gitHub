@@ -88,7 +88,7 @@ public class FoodMB extends CustomValidator implements Serializable {
                 return "food";
                 }catch(Exception ex){
                 ex.printStackTrace();
-                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Thêm !", null);
+                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Thêm (Có thể tên đã tồn tại)!", null);
                 FacesContext.getCurrentInstance().addMessage(null, fMsg);
                 return "food-add";
             }
@@ -127,7 +127,7 @@ public class FoodMB extends CustomValidator implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, fMsg);
                 return "food";
             }catch(Exception ex){
-                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Cập Nhật", null);
+                FacesMessage fMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Phát Sinh Lỗi Khi Cập Nhật (Có thể tên đã tồn tại)", null);
                 FacesContext.getCurrentInstance().addMessage(null, fMsg);
                 return "food-edit";
             }        

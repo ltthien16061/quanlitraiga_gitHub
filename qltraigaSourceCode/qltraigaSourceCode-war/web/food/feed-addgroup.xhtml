@@ -13,34 +13,52 @@
                         <!-- Breadcrumbs-->
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                  <h:link outcome="chicken-group">Nhóm Gà</h:link>         
+                                <h:link outcome="/chicken/chicken-group">Nhóm Gà</h:link>         
                             </li>
                             <li class="breadcrumb-item active">Cho Ăn</li>
                         </ol> 
                         <h4 class="group-id">#{feedMB.groupID}</h4> 
                         <!--Nọi dung trang của bạn sẽ nằm ở đây-->  
                         <div class="row">
-                            <fieldset class="border p-2 mx-2 col-md-3 col-12">
-                                <legend  class="w-auto"> Khẩu Phần Ăn </legend>
-                                <h:form id="group-addFeedForm">
-                                    <h:inputText class="form-control group-addNum" value="#{feedMB.quantity}" id="group-addFeed" required="true" requiredMessage="Số khẩu phần là bắt buộc!"
-                                                 onkeypress="if(event.which &lt; 48 || event.which &gt; 57) return false;" >
-                                          <f:ajax event="blur" execute="group-addFeedForm" render="groupaddFeedValidate"/> 
-                                    </h:inputText>
-                                    <small class="form-text text-muted">
-                                       <h:message for="group-addFeed"  id="groupaddFeedValidate" style="color: red"/>
-                                    </small> 
-                                </h:form>
-                             </fieldset>
-                            <div class="col textright">                                
-                                <!--Message Modal-->
+                            <h:form id="group-addFeedForm"> 
+                                <fieldset class="border p-2 mx-2">
+                                    <legend  class="w-auto"> Thông Tin Chi Tiết </legend>                                                                        
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-4 col-form-label">Khẩu Phần Ăn</label>
+                                        <div class="col-12 col-sm-8 col-md-6 ">
+                                            <h:inputText class="form-control group-addNum" value="#{feedMB.quantity}" id="group-addFeed" required="true" requiredMessage="Số khẩu phần là bắt buộc!"
+                                                         onkeypress="if (event.which &lt; 48 || event.which &gt; 57) return false;" >
+                                                <f:ajax event="blur" execute="group-addFeedForm" render="groupaddFeedValidate"/> 
+                                            </h:inputText>                                
+                                        </div>
+                                        <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4">
+                                            <h:message for="group-addFeed"  id="groupaddFeedValidate" style="color: red"/>
+                                        </small>
+                                    </div>                                                                       
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-4 col-form-label">Thời Điểm</label>
+                                        <div class="col-12 col-sm-8 col-md-6 ">
+                                            <p:calendar id="group-addDateFeed" value="#{feedMB.feedDate}" pattern="dd/MM/yyyy HH:mm:ss" validator="#{feedMB.validateDate}">
+                                                <p:ajax event="dateSelect" listener="#{feedMB.handleDateSelect}"/>
+                                                <f:ajax event="blur" execute="group-addFeedForm" render="group-addTime-FeedValidate"/> 
+                                            </p:calendar>
+                                        </div>
+                                        <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4">
+                                            <h:message for="group-addDateFeed"  id="group-addTime-FeedValidate" style="color: red"/>
+                                        </small>
+                                    </div> 
+                                </fieldset>
+                            </h:form>
+
+                            <!--Message Modal-->
+                            <div class="col textright">   
                                 <h:panelGroup id="message-containt">
                                     <h:messages  style="padding-top: 18px" 
                                                  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
-                                                 warnStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;"
+                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;"
                                                  rendered="#{facesContext.messageList.size() gt 0}" />
                                 </h:panelGroup>
-                                 <!--Message Modal-->
+                                <!--Message Modal-->
                             </div>
                         </div> 
                         <h3>Chọn Công Thức :</h3>
@@ -75,7 +93,7 @@
                                     <h:form class="textcenter">
                                         <h:commandButton  value="Chọn" class="btn btn-outline-info group-btnAddFeed" onclick="showModal()"
                                                           actionListener="#{feedMB.getRecipeFormGroup(item[0])}">
-                                               <f:ajax execute="@form" render="@none" />
+                                            <f:ajax execute="@form" render="@none" />
                                         </h:commandButton>
                                         <button type="button" data-toggle="modal" data-target="#groupAddFeed-Modal" style="display: none" id="group-btnAddFeed">Bật Modal</button>   
                                     </h:form>
@@ -83,48 +101,56 @@
                             </h:dataTable>  
                             <!-- Modal -->
                             <div class="modal fade" id="groupAddFeed-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận tạo lịch ăn ?</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <div class="form-group row">
-                                        <div class="col-12 col-sm-4">
-                                            <p class="small-title pt-1">Mã Nhóm :</p>
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Xác nhận tạo lịch ăn ?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                        <div class="col" >
-                                           <p id="groupAddFeed-Name"></p>
+                                        <div class="modal-body">
+                                            <div class="form-group row">
+                                                <div class="col-12 col-sm-4">
+                                                    <p class="small-title pt-1">Mã Nhóm :</p>
+                                                </div>
+                                                <div class="col" >
+                                                    <p id="groupAddFeed-Name"></p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-12 col-sm-4">
+                                                    <p class="small-title pt-1">Mã Công Thức :</p>
+                                                </div>
+                                                <div class="col" >
+                                                    <p id="groupAddFeed-Recipe"></p>
+                                                </div>
+                                            </div> 
+                                            <div class="form-group row">
+                                                <div class="col-12 col-sm-4">
+                                                    <p class="small-title pt-1">Số Khẩu Phần :</p>
+                                                </div>
+                                                <div class="col" >
+                                                    <p id="groupAddFeed-Num"></p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-12 col-sm-4">
+                                                    <p class="small-title pt-1">Ngày Cho Ăn :</p>
+                                                </div>
+                                                <div class="col" >
+                                                    <p id="groupAddFeed-Date"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <h:form>
+                                                <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{feedMB.addFeedByGroup()}" />
+                                            </h:form> 
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <div class="col-12 col-sm-4">
-                                            <p class="small-title pt-1">Mã Công Thức :</p>
-                                        </div>
-                                        <div class="col" >
-                                           <p id="groupAddFeed-Recipe"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-12 col-sm-4">
-                                            <p class="small-title pt-1">Số Khẩu Phần :</p>
-                                        </div>
-                                        <div class="col" >
-                                           <p id="groupAddFeed-Num"></p>
-                                        </div>
-                                    </div>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <h:form>
-                                        <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{feedMB.addFeedByGroup()}" />
-                                    </h:form> 
-                                  </div>
                                 </div>
-                              </div>
                             </div>
                             <!--end Modal-->
                         </div>         
@@ -134,26 +160,47 @@
             <ui:define name="custom-js">                
                 <script>
                     //Set datatable chicken supplier
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         $('#groupRecipe-dataTable').DataTable();
-                    } );  
-                     //Get value in datatable
-                    $(".group-btnAddFeed").click(function() {
-                        var $recipe = $(this).closest("tr").find(".re-id").text();  
+                    });
+                    //Get value in datatable
+                    $(".group-btnAddFeed").click(function () {
+                        var $recipe = $(this).closest("tr").find(".re-id").text();
                         var $num = document.getElementById("group-addFeedForm:group-addFeed").value;
-                        document.getElementById("groupAddFeed-Name").innerHTML = $('.group-id').text(); 
-                        document.getElementById("groupAddFeed-Recipe").innerHTML = $recipe;       
-                        document.getElementById("groupAddFeed-Num").innerHTML = $num;   
+                        var $date = document.getElementById("group-addFeedForm:group-addDateFeed_input").value;
+
+                        document.getElementById("groupAddFeed-Name").innerHTML = $('.group-id').text();
+                        document.getElementById("groupAddFeed-Recipe").innerHTML = $recipe;
+                        document.getElementById("groupAddFeed-Num").innerHTML = $num;
+                        document.getElementById("groupAddFeed-Date").innerHTML = $date;
 
                     });
-                    function showModal(){
+                    function showModal() {
+                        //Check quantity
                         var $num = document.getElementById("group-addFeedForm:group-addFeed").value;
-                        if($num == null || $num == 0){
+                        if ($num == null || $num == 0) {
                             return;
-                        }else{
-                           document.getElementById("group-btnAddFeed").click(); 
-                        }                        
-                    }
+                        }
+                        //Check dateTime input
+                        var $date = document.getElementById("group-addFeedForm:group-addDateFeed_input").value;
+                        var sdate = $date.split(" ");
+                        var inputdate = sdate[0];
+                        var inputtime = sdate[1];
+                        var sinputdate = inputdate.split("/");
+                        var apdate = sinputdate[2]+"/"+sinputdate[1]+"/"+sinputdate[0]+" "+inputtime;
+                        //check date                        
+                        var pastDate = new Date("1990/01/01 00:00:00");
+                        var myDate = new Date(apdate);
+                        var today = new Date();
+                        if($date == "" || pastDate &gt; myDate || today &lt; myDate){
+                            document.getElementById("group-addFeedForm:group-addTime-FeedValidate").innerHTML = "Ngày không hợp lệ";
+                            document.getElementById("group-addFeedForm:group-addTime-FeedValidate").style = "color:red";
+                            console.log("Ngày không hợp lệ");
+                            return;
+                        } else {
+                            document.getElementById("group-btnAddFeed").click();
+                        }
+                    }   
                 </script>
             </ui:define>
         </ui:composition>  

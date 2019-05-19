@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                 <h:link outcome="account">Tài Khoản</h:link>              
+                            </li>
+                            <li class="breadcrumb-item active">Thêm Mới</li>
+                        </ol>
+                        <!--Message Modal-->
+                        <h:panelGroup id="message-containt">
+                            <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                         errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;"                                          
+                                         warnStyle="display:none"
+                                         rendered="#{facesContext.messageList.size() gt 0}" />
+                        </h:panelGroup>
+                        <!--End Message Modal-->
+                        <!--Nọi dung trang của bạn sẽ nằm ở đây-->      
+                        <h:form class="myform" id="acc-addF">
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Tên Tài Khoản</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <h:inputText class="form-control" value="#{accountMB.username}" id="accName" validator="#{accountMB.validateString}">
+                                        <f:ajax event="blur" execute="acc-addF" render="accNameValidate"/> 
+                                    </h:inputText>
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                    <h:message for="accName"  id="accNameValidate" style="color: red"/>
+                                </small>  
+                            </div>                        
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Mật Khẩu</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <h:inputSecret  class="form-control" value="#{accountMB.password}" id="accPass" validator="#{accountMB.validateString}" onkeypress="checkEnter(event)">
+                                        <f:ajax event="blur" execute="acc-addF" render="passPriceValidate"/> 
+                                    </h:inputSecret >
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                   <h:message for="accPass" id="passPriceValidate" style="color: red"/>
+                                </small>                            
+                            </div>                      
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Nhập Lại Mật Khẩu</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <input type="password" class="form-control" value="" id="re-accPass" onkeypress="checkEnter(event)"/>
+                                </div>
+                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                    <p id="re-passPriceValidate" style="color: red"></p>
+                                </small>                            
+                            </div>
+                            
+                            <div class="form-group row">
+                                <div class="col-sm-10 offset-0 offset-sm-4 offset-xl-2">
+                                    <button type="button" class="btn btn-outline-success" onclick="checkpass()">Xác Nhận</button>
+                                    <h:commandButton value="Xác Nhận" class="hidden" id="acc-btnAdd" action="#{accountMB.addAccount()}" />
+                                    <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3">
+                                        <p:ajax update="acc-addF" resetValues="true" />
+                                    </h:commandButton>
+                                </div>
+                            </div>                            
+                        </h:form>                        
+                    </div>
+                </div>
+            </ui:define>   
+            <ui:define name="custom-js">                
+                <script type="text/javascript">
+                    function checkpass(){
+                          if (document.getElementById('acc-addF:accPass').value ==
+                            document.getElementById('re-accPass').value) {
+                            document.getElementById('re-passPriceValidate').innerHTML = '';
+                            //auto submit form
+                            document.getElementById("acc-addF:acc-btnAdd").click();
+                          } else {
+                            document.getElementById('re-passPriceValidate').style.color = 'red';
+                            document.getElementById('re-passPriceValidate').innerHTML = 'Nhập Lại Mật Khẩu Sai !';
+                          }
+                    }
+                    
+                    function checkEnter(e) {
+                        //See notes about 'which' and 'key'
+                        if (e.keyCode == 13) {                
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+
