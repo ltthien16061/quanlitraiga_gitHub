@@ -38,6 +38,9 @@ and open the template in the editor.
 #message-containt ul{
     padding-left: 0;
 }
+a:hover{
+ text-decoration: none;   
+}
 #edit-modalTitle{
     font-size: 18px;
     font-style: italic;
@@ -90,6 +93,12 @@ ul.sidebar.navbar-nav li a:hover{
 }
 h6.dropdown-header{
     
+}
+.navbar-nav .nav-item.dropdown .dropdown-toggle::after{
+    content: '+';
+}
+.navbar-nav .nav-item.dropdown.show .dropdown-toggle::after {
+    content: '+';
 }
 /*end sidebar*/
 

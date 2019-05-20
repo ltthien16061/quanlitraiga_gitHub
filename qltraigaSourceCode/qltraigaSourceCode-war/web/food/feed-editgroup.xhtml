@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <h:link outcome="/chicken/chicken-group">Nhóm Gà</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Thay Đổi Lịch Ăn</li>
+                        </ol> 
+                        <h4 class="group-id">#{feedMB.groupID}</h4> 
+                        <!--Nọi dung trang của bạn sẽ nằm ở đây-->  
+                        <div class="row">
+                            <h:form id="group-editFeedForm"> 
+                                <fieldset class="border p-2 mx-2">
+                                    <legend  class="w-auto"> Thông Tin Cần Thay Đổi </legend>                                                                        
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-4 col-form-label">Khẩu Phần Ăn</label>
+                                        <div class="col-12 col-sm-8 col-md-6 ">
+                                            <h:inputText class="form-control group-editNum" value="#{feedMB.quantity}" id="group-editNum" required="true" requiredMessage="Số khẩu phần là bắt buộc!"
+                                                         onkeypress="if (event.which &lt; 48 || event.which &gt; 57) return false;" >
+                                                <f:ajax event="blur" execute="group-editFeedForm" render="group-edit-Feed-NumValidate"/> 
+                                            </h:inputText>                                
+                                        </div>
+                                        <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4">
+                                            <h:message for="group-editNum"  id="group-edit-Feed-NumValidate" style="color: red"/>
+                                        </small>
+                                    </div>                                                                       
+                                    <div class="form-group row">
+                                        <label class="col-12 col-sm-4 col-form-label">Thời Điểm</label>
+                                        <div class="col-12 col-sm-8 col-md-6 ">
+                                            <p:calendar id="group-editDateFeed" value="#{feedMB.feedDate}" pattern="dd/MM/yyyy HH:mm:ss" validator="#{feedMB.validateDate}">
+                                                <p:ajax event="dateSelect" listener="#{feedMB.handleDateSelect}"/>
+                                                <f:ajax event="blur" execute="group-editFeedForm" render="group-editTime-FeedValidate"/> 
+                                            </p:calendar>
+                                        </div>
+                                        <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4">
+                                            <h:message for="group-editDateFeed"  id="group-editTime-FeedValidate" style="color: red"/>
+                                        </small>
+                                    </div> 
+                                </fieldset>
+                            </h:form>
+
+                            <!--Message Modal-->
+                            <div class="col textright">   
+                                <h:panelGroup id="message-containt">
+                                    <h:messages  style="padding-top: 18px" 
+                                                 infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;"
+                                                 rendered="#{facesContext.messageList.size() gt 0}" />
+                                </h:panelGroup>
+                                <!--Message Modal-->
+                            </div>
+                        </div> 
+                        <h3>Chọn Công Thức :</h3>
+                        <div class="table-responsive">
+                            <h:dataTable class="table" id="groupRecipe-dataTable" value="#{recipeMB.showAllRecipe()}" var="item">
+                                <h:column>
+                                    <f:facet name="header">Mã Số</f:facet>
+                                    <h:outputText class="re-id" value="#{item[0]}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Tên Thức Ăn</f:facet>
+                                    <h:outputText class="re-fName" value="#{item[2]==null?'Không sử dụng':item[2]}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Số Lượng Thức Ăn</f:facet>
+                                    <h:outputText class="re-fQuantity" value="#{item[3]}"/>
+                                </h:column>   
+                                <h:column>
+                                    <f:facet name="header">Tên Vitamin</f:facet>
+                                    <h:outputText class="re-vName" value="#{item[5]==null?'Không sử dụng':item[5]}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Số Lượng Vitamin</f:facet>
+                                    <h:outputText class="re-vQuantity" value="#{item[6]}"/>
+                                </h:column>  
+                                <h:column>
+                                    <f:facet name="header">Mô Tả</f:facet>
+                                    <h:outputText class="re-Desription" value="#{item[7]}"/>
+                                </h:column>   
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter"></div></f:facet>
+                                    <h:form class="textcenter">
+                                        <h:commandButton  value="Chọn" class="btn btn-outline-info group-btnEditFeed" onclick="showModal()"
+                                                          actionListener="#{feedMB.getRecipeFormGroup(item[0])}">
+                                            <f:ajax execute="@form" render="@none" />
+                                        </h:commandButton>
+                                        <button type="button" data-toggle="modal" data-target="#groupAddFeed-Modal" style="display: none" id="group-btnEditFeed">Bật Modal</button>   
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>  
+                            <!-- Modal -->
+                            <div class="modal fade" id="groupAddFeed-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Xác Nhận Cập Nhật Lại Lịch Ăn ?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group row">
+                                                <div class="col-12 col-sm-4">
+                                                    <p class="small-title pt-1">Mã Nhóm :</p>
+                                                </div>
+                                                <div class="col" >
+                                                    <p id="groupEditFeed-Name"></p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-12 col-sm-4">
+                                                    <p class="small-title pt-1">Mã Công Thức :</p>
+                                                </div>
+                                                <div class="col" >
+                                                    <p id="groupEditFeed-Recipe"></p>
+                                                </div>
+                                            </div> 
+                                            <div class="form-group row">
+                                                <div class="col-12 col-sm-4">
+                                                    <p class="small-title pt-1">Số Khẩu Phần :</p>
+                                                </div>
+                                                <div class="col" >
+                                                    <p id="groupEditFeed-Num"></p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-12 col-sm-4">
+                                                    <p class="small-title pt-1">Ngày Cho Ăn :</p>
+                                                </div>
+                                                <div class="col" >
+                                                    <p id="groupEditFeed-Date"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <h:form>
+                                                <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{feedMB.editGroupFeed()}" />
+                                            </h:form> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end Modal-->
+                        </div>         
+                    </div>
+                </div>
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable chicken supplier
+                    $(document).ready(function () {
+                        $('#groupRecipe-dataTable').DataTable();
+                    });
+                    //Get value in datatable
+                    $(".group-btnEditFeed").click(function () {
+                        var $recipe = $(this).closest("tr").find(".re-id").text();
+                        var $num = document.getElementById("group-editFeedForm:group-editNum").value;
+                        var $date = document.getElementById("group-editFeedForm:group-editDateFeed_input").value;
+
+                        document.getElementById("groupEditFeed-Name").innerHTML = $('.group-id').text();
+                        document.getElementById("groupEditFeed-Recipe").innerHTML = $recipe;
+                        document.getElementById("groupEditFeed-Num").innerHTML = $num;
+                        document.getElementById("groupEditFeed-Date").innerHTML = $date;
+
+                    });
+                    function showModal() {
+                        //Check quantity
+                        var $num = document.getElementById("group-editFeedForm:group-editNum").value;
+                        if ($num == null || $num == 0) {
+                            return;
+                        }
+                        //Check dateTime input
+                        var $date = document.getElementById("group-editFeedForm:group-editDateFeed_input").value;
+                        var sdate = $date.split(" ");
+                        var inputdate = sdate[0];
+                        var inputtime = sdate[1];
+                        var sinputdate = inputdate.split("/");
+                        var apdate = sinputdate[2]+"/"+sinputdate[1]+"/"+sinputdate[0]+" "+inputtime;
+                        //check date                        
+                        var pastDate = new Date("1990/01/01 00:00:00");
+                        var myDate = new Date(apdate);
+                        var today = new Date();
+                        if($date == "" || pastDate &gt; myDate || today &lt; myDate){
+                            document.getElementById("group-editFeedForm:group-addTime-FeedValidate").innerHTML = "Ngày không hợp lệ";
+                            document.getElementById("group-editFeedForm:group-addTime-FeedValidate").style = "color:red";
+                            console.log("Ngày không hợp lệ");
+                            return;
+                        } else {
+                            document.getElementById("group-btnEditFeed").click();
+                        }
+                    }   
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>
+

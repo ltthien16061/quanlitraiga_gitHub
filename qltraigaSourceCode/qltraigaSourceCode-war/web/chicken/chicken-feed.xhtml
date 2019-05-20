@@ -20,7 +20,7 @@
                             </li>
                             <li class="breadcrumb-item active">Lịch Trình Cho Ăn</li>
                         </ol>
-                        <h4>Mã Nhóm : #{feedMB.groupID}</h4>  
+                        <h4 id="feed-groupID">Mã Nhóm : #{feedMB.groupID}</h4>  
                         <div class="row">
                             <div class="col-md-6 col-12">
                                 <h:link outcome="/food/feed-addgroup" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Cho Ăn </h:link>  
@@ -37,22 +37,22 @@
                         </div>          
                         <!-- Datatable -->         
                         <div class="table-responsive">
-                            <h:dataTable class="table" id="groupFeed-dataTable" value="#{feedMB.feedList}" var="item">                            
+                            <h:dataTable class="table" id="groupFeed-dataTable" value="#{feedMB.showFeedscheduleByGroup()}" var="item">                            
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter">Thời Gian Cho Ăn</div></f:facet>
                                     <div class="textcenter">
-                                        <h:outputText value="#{item[0]}" >
+                                        <h:outputText value="#{item[0]}" class="feed-time">
                                             <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy" />
                                         </h:outputText>
                                     </div>                                    
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Mã Công Thức</f:facet>
-                                    <h:outputText value="#{item[1]}"/>
+                                    <h:outputText value="#{item[1]}" class="feed-recipe"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Khẩu Phần</f:facet>
-                                    <h:outputText value="#{item[2]}"/>
+                                    <h:outputText value="#{item[2]}" class="feed-quantity"/>
                                 </h:column>         
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter">Thời Gian Cập Nhật</div></f:facet>
@@ -62,12 +62,74 @@
                                         </h:outputText>
                                     </div>                                    
                                 </h:column> 
+                                <h:column>
+                                    <!--Edit Feed-->
+                                    <h:form>
+                                        <h:commandButton  value="Cập Nhật" class="btn btn-outline-info" action="#{feedMB.getIdForEdit(item[4])}"></h:commandButton>                                        
+                                        <!--Delete Feed-->
+                                        <h:commandButton  value="Xóa" class="btn btn-outline-danger ml-2 feed-btnDel" onclick="showDelModal()"
+                                                          actionListener="#{feedMB.getIdForDel(item[4])}">
+                                            <f:ajax execute="@form" render="@none" />
+                                        </h:commandButton>
+                                        <button type="button" data-toggle="modal" data-target="#feedDelModal" style="display: none" id="feed-btnDel">Xóa</button>   
+                                    </h:form>
+                                    
+                                </h:column>
                             </h:dataTable>
                         </div>                        
                     </div>
-                </div>  
-                
-                
+                </div>                  
+             
+                <!-- Delete Modal -->
+                <div class="modal fade" id="feedDelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa Thông Tin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="form-group row">
+                            <div class="col" >
+                               <p id="feedGroup-Modal"></p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-5 col-12">
+                                <p class="small-title pt-1">Thời Gian Cho Ăn :</p>
+                            </div>
+                            <div class="col" >
+                               <p id="feedTime-Modal"></p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-5">
+                                <p class="small-title pt-1">Mã Công Thức :</p>
+                            </div>
+                            <div class="col" >
+                               <p id="feedRecipe-Modal"></p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-5">
+                                <p class="small-title pt-1">Số Khẩu Phần :</p>
+                            </div>
+                            <div class="col" >
+                               <p id="feedNum-Modal"></p>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
+                        <h:form>
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{feedMB.deleteFeed()}" />
+                        </h:form>                        
+                      </div>
+                    </div>
+                  </div>
+                </div>   
                 
             </ui:define>
             <ui:define name="custom-js">                
@@ -76,6 +138,20 @@
                     $(document).ready(function() {
                         $('#groupFeed-dataTable').DataTable();
                     } );
+                    //Get value in datatable for surplus
+                    $(".feed-btnDel").click(function() {
+                        var $id = $("#feed-groupID").text();
+                        var $time = $(this).closest("tr").find(".feed-time").text(); 
+                        var $recipe = $(this).closest("tr").find(".feed-recipe").text();  
+                        var $quantity = $(this).closest("tr").find(".feed-quantity").text();                
+                        document.getElementById("feedGroup-Modal").innerHTML = $id;           
+                        document.getElementById("feedTime-Modal").innerHTML = $time;   
+                        document.getElementById("feedRecipe-Modal").innerHTML = $recipe;
+                        document.getElementById("feedNum-Modal").innerHTML = $quantity;
+                    });
+                    function showDelModal(){
+                        document.getElementById("feed-btnDel").click();
+                    }
                 </script>
             </ui:define>
         </ui:composition>  
