@@ -28,5 +28,7 @@ public interface HKhayApFacadeLocal {
     List<HKhayAp> findRange(int[] range);
 
     int count();
+
+    public List<HKhayAp> findAllTrayWithNotDel();
     
 }
