@@ -28,5 +28,7 @@ public interface HNongHoGaFacadeLocal {
     List<HNongHoGa> findRange(int[] range);
 
     int count();
+
+    public List<HNongHoGa> findAllFarmerWithNotDel();
     
 }

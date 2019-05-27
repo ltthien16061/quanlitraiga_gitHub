@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,5 +29,13 @@ public class HNongHoGaFacade extends AbstractFacade<HNongHoGa> implements HNongH
     public HNongHoGaFacade() {
         super(HNongHoGa.class);
     }
+    
+    @Override
+    public List<HNongHoGa> findAllFarmerWithNotDel(){
+        Query query = em.createNamedQuery("HNongHoGa.findByXoa");
+        query.setParameter("xoa", false);
+        return query.getResultList();
+    }
+    
     
 }
