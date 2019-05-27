@@ -5,7 +5,6 @@
  */
 package food;
 
-import beanpack.FLoaiThucAnFacadeLocal;
 import beanpack.FThucAn;
 import beanpack.FThucAnFacadeLocal;
 import javax.inject.Named;

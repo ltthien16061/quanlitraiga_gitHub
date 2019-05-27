@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import javax.faces.application.ResourceHandler;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

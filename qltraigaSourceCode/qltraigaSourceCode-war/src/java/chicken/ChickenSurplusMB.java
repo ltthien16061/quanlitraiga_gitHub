@@ -7,14 +7,12 @@ package chicken;
 
 import beanpack.GNhomGa;
 import beanpack.GNhomGaFacadeLocal;
-import beanpack.GThongKeNhomGaFacadeLocal;
 import beanpack.NThongKeGaDu;
 import beanpack.NThongKeGaDuFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;

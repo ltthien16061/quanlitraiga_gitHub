@@ -12,8 +12,6 @@ import beanpack.GThongKeNhomGaFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
