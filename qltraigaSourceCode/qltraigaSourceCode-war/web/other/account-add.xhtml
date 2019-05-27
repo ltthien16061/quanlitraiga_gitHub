@@ -30,7 +30,8 @@
                             <div class="form-group row">
                                 <label class="col-12 col-sm-4 col-xl-2 col-form-label">Tên Tài Khoản</label>
                                 <div class="col-12 col-sm-8 col-md-6 col-xl-6">
-                                    <h:inputText class="form-control" value="#{accountMB.username}" id="accName" validator="#{accountMB.validateString}">
+                                    <h:inputText class="form-control" value="#{accountMB.username}" id="accName" validatorMessage="Tên Tài Khoản từ 5-20 ký tự, chỉ được chứa ký tự chữ và số!">
+                                        <f:validateRegex pattern="^[a-zA-Z0-9]{5,20}$" />
                                         <f:ajax event="blur" execute="acc-addF" render="accNameValidate"/> 
                                     </h:inputText>
                                 </div>
@@ -41,7 +42,9 @@
                             <div class="form-group row">
                                 <label class="col-12 col-sm-4 col-xl-2 col-form-label">Mật Khẩu</label>
                                 <div class="col-12 col-sm-8 col-md-6 col-xl-6">
-                                    <h:inputSecret  class="form-control" value="#{accountMB.password}" id="accPass" validator="#{accountMB.validateString}" onkeypress="checkEnter(event)">
+                                    <h:inputSecret  class="form-control" value="#{accountMB.password}" id="accPass"
+                                                    onkeypress="checkEnter(event)" validatorMessage="Mật khẩu từ 8-16 ký tự, chỉ được chứa ký tự chữ và số!">
+                                        <f:validateRegex pattern="^[a-zA-Z0-9]{8,16}$" />
                                         <f:ajax event="blur" execute="acc-addF" render="passPriceValidate"/> 
                                     </h:inputSecret >
                                 </div>

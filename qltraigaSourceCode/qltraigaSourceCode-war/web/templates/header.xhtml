@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
         <ui:composition>
             <nav class="navbar navbar-expand static-top" id="header">
@@ -54,7 +55,9 @@
                         <div class="modal-body">Việc Đăng Xuất Khỏi Trang Web Sẽ Xóa Phiên Làm Việc Của Bạn, Tránh Việc Trang Web Bị Kẻ Xấu Tấn Công!!!</div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
-                            <a class="btn btn-primary" href="login.html">Thoát</a>
+                            <h:form>
+                                <h:commandButton value="Thoat" action="#{accountMB.logout()}" styleClass="btn btn-danger"></h:commandButton>
+                            </h:form>
                         </div>
                     </div>
                 </div>

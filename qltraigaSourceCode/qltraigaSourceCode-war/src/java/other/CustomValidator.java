@@ -23,7 +23,7 @@ public class CustomValidator {
     public void validateString(FacesContext f, UIComponent c, Object obj){
         String s=(String)obj;
         if(s.length()==0)
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_WARN, "Nọi dung không được bỏ trống.",null));        
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_WARN, "Nôi dung không được bỏ trống.",null));        
     } 
     public void validateNum(FacesContext f, UIComponent c, Object obj){
         int s=(int)obj;

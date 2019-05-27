@@ -23,7 +23,7 @@
             <h:form  id="loginF">
               <div class="form-group">
                 <div class="form-label-group">
-                    <h:inputText class="form-control" id="username" value="#{accountMB.username}" validator="#{accountMB.validateName}" validatorMessage="Tên Đăng Nhập Không Hợp Lệ">
+                    <h:inputText class="form-control" id="username" value="#{accountMB.username}" validatorMessage="Tên Đăng Nhập Không Hợp Lệ">
                         <f:validateRegex pattern="^[a-zA-Z0-9]{5,20}$" />
                         <f:ajax event="blur" execute="loginF" render="usernameValidate"/> 
                     </h:inputText>   
@@ -32,8 +32,8 @@
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                    <h:inputSecret class="form-control" id="password" value="#{accountMB.password}" validator="#{accountMB.validatePass}" validatorMessage="Mật Khẩu Không Hợp Lệ">
-                        <f:validateRegex pattern="^[a-zA-Z0-9]{5,16}$" />
+                    <h:inputSecret class="form-control" id="password" value="#{accountMB.password}" validatorMessage="Mật Khẩu Không Hợp Lệ">
+                        <f:validateRegex pattern="^[a-zA-Z0-9]{8,16}$" />
                         <f:ajax event="blur" execute="loginF" render="passValidate"/> 
                     </h:inputSecret>
                     <label for="inputPassword">Mật Khẩu :</label>
@@ -52,11 +52,9 @@
         </div>
       </div>
 
-      <!-- Bootstrap core JavaScript-->
-        <script src="resources/primefaces/jquery/jquery.js"></script>
-        <script src="resources/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <!-- Core plugin JavaScript-->
-        <script src="resources/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+        <h:outputScript library="bootstrap" name="js/bootstrap.bundle.min.js"/>
     </h:body>
 </html>
 
