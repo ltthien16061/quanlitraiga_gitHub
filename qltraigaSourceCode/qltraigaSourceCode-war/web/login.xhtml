@@ -17,40 +17,40 @@
     </h:head>
     <h:body class="bg-login">
         <div class="container">
-        <div class="card card-login mx-auto mt-5">
-          <div class="card-header bg-dark text-white">Login</div>
-          <div class="card-body bg-light text-dark">
-            <h:form  id="loginF">
-              <div class="form-group">
-                <div class="form-label-group">
-                    <h:inputText class="form-control" id="username" value="#{accountMB.username}" validatorMessage="Tên Đăng Nhập Không Hợp Lệ">
-                        <f:validateRegex pattern="^[a-zA-Z0-9]{5,20}$" />
-                        <f:ajax event="blur" execute="loginF" render="usernameValidate"/> 
-                    </h:inputText>   
-                    <label for="inputEmail">Tên Đăng Nhập :</label>
+            <div class="card card-login mx-auto mt-5">
+                <div class="card-header bg-dark text-white">Login</div>
+                <div class="card-body bg-light text-dark">
+                    <h:form  id="loginF">
+                        <div class="form-group">
+                            <div class="form-label-group">
+                                <h:inputText class="form-control" id="username" value="#{accountMB.username}" validatorMessage="Tên Đăng Nhập Không Hợp Lệ">
+                                    <f:validateRegex pattern="^[a-zA-Z0-9]{5,20}$" />
+                                    <f:ajax event="blur" execute="loginF" render="usernameValidate"/> 
+                                </h:inputText>   
+                                <label for="inputEmail">Tên Đăng Nhập :</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label-group">
+                                <h:inputSecret class="form-control" id="password" value="#{accountMB.password}" validatorMessage="Mật Khẩu Không Hợp Lệ">
+                                    <f:validateRegex pattern="^[a-zA-Z0-9]{8,16}$" />
+                                    <f:ajax event="blur" execute="loginF" render="passValidate"/> 
+                                </h:inputSecret>
+                                <label for="inputPassword">Mật Khẩu :</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label-group">
+                                <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                             errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                             rendered="#{facesContext.messageList.size() gt 0}" />
+                            </div>
+                        </div>                 
+                        <h:commandButton class="btn btn-primary btn-block" value="Login" action="#{accountMB.login()}" />
+                    </h:form>
                 </div>
-              </div>
-              <div class="form-group">
-                <div class="form-label-group">
-                    <h:inputSecret class="form-control" id="password" value="#{accountMB.password}" validatorMessage="Mật Khẩu Không Hợp Lệ">
-                        <f:validateRegex pattern="^[a-zA-Z0-9]{8,16}$" />
-                        <f:ajax event="blur" execute="loginF" render="passValidate"/> 
-                    </h:inputSecret>
-                    <label for="inputPassword">Mật Khẩu :</label>
-                </div>
-              </div>
-            <div class="form-group">
-                <div class="form-label-group">
-                    <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
-                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
-                                                 rendered="#{facesContext.messageList.size() gt 0}" />
-                </div>
-              </div>                 
-                <h:commandButton class="btn btn-primary btn-block" value="Login" action="#{accountMB.login()}" />
-            </h:form>
-          </div>
+            </div>
         </div>
-      </div>
 
         <!-- Bootstrap core JavaScript-->
         <h:outputScript library="primefaces" name="jquery/jquery.js"/>

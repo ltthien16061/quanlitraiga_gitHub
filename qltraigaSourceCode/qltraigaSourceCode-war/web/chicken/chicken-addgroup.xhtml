@@ -121,7 +121,7 @@
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <h:form>
-                                        <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{groupMB.addGroup()}" />
+                                        <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{groupMB.addGroup()}" onclick="showLoading();" />
                                     </h:form> 
                                   </div>
                                 </div>
@@ -153,7 +153,10 @@
                         }else{
                            document.getElementById("group-btnAdd").click(); 
                         }                        
-                    }
+                    }                  
+                    function showLoading() {
+                        $('#preloader').removeClass('d-none');
+                    } 
                 </script>
             </ui:define>
         </ui:composition>  

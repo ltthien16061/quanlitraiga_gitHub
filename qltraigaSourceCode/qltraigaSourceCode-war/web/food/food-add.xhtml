@@ -89,7 +89,7 @@
                             
                             <div class="form-group row">
                                 <div class="col-sm-10 offset-0 offset-sm-4 offset-xl-2">
-                                    <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{foodMB.addFood()}" />
+                                    <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{foodMB.addFood()}" onclick="showLoading();" />
                                     <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3" onclick="foodReset()" >
                                         <f:ajax execute="@form" render="@none" />
                                     </h:commandButton>
@@ -126,6 +126,9 @@
                         $('.food-addtb').delay(1000).removeClass('hidden');
                         $('.food-addtb').addClass('fadeInLeft');
                     }
+                    function showLoading() {
+                        $('#preloader').removeClass('d-none');
+                    } 
                 </script>
             </ui:define>
         </ui:composition>  

@@ -103,7 +103,7 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
                         <h:form>
-                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{chickenSupplierMB.deleteChickenSupplier()}" />
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{chickenSupplierMB.deleteChickenSupplier()}"  onclick="showLoading();"/>
                         </h:form>                        
                       </div>
                     </div>
@@ -128,7 +128,10 @@
                     });
                     function showModal(){
                         document.getElementById("cs-btnDel").click();
-                    }
+                    }         
+                    function showLoading() {
+                        $('#preloader').removeClass('d-none');
+                    } 
                 </script>
             </ui:define>
         </ui:composition>  

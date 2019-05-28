@@ -142,10 +142,10 @@
                       </div>
                       <div class="modal-footer"> 
                         <h:form>
-                            <h:commandButton value="Hoàn Tác" class="btn btn-outline-danger btn-surplusRollback" action="#{chickenSurplusMB.updateSurplusChicken()}" />
+                            <h:commandButton value="Hoàn Tác" class="btn btn-outline-danger btn-surplusRollback" action="#{chickenSurplusMB.updateSurplusChicken()}" onclick="showLoading();" />
                         </h:form>  
                         <h:form>
-                            <h:commandButton value="Cập Nhật" class="btn btn-outline-success btn-surplusSubmit" action="#{chickenSurplusMB.updateSurplusChicken()}" />
+                            <h:commandButton value="Cập Nhật" class="btn btn-outline-success btn-surplusSubmit" action="#{chickenSurplusMB.updateSurplusChicken()}" onclick="showLoading();" />
                         </h:form>                        
                       </div>
                     </div>
@@ -207,7 +207,7 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
                         <h:form>
-                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{groupMB.deleteGroup()}" />
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{groupMB.deleteGroup()}" onclick="showLoading();" />
                         </h:form>                        
                       </div>
                     </div>
@@ -266,7 +266,10 @@
                     });
                     function showModal2(){
                         document.getElementById("group-btnDel").click();
-                    }
+                    }              
+                    function showLoading() {
+                        $('#preloader').removeClass('d-none');
+                    } 
                 </script>
             </ui:define>
         </ui:composition>  

@@ -57,7 +57,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-10 offset-0 offset-sm-4 offset-xl-2">
-                                    <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{chickenSupplierMB.editChickenSupplier()}" />                           
+                                    <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{chickenSupplierMB.editChickenSupplier()}" onclick="showLoading();" />                           
                                     <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3">
                                         <p:ajax update="cs-editF" resetValues="true" />
                                     </h:commandButton>
@@ -66,6 +66,13 @@
                         </h:form>                        
                     </div>
                 </div>
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>               
+                    function showLoading() {
+                        $('#preloader').removeClass('d-none');
+                    } 
+                </script>
             </ui:define>
         </ui:composition>  
     </h:body>

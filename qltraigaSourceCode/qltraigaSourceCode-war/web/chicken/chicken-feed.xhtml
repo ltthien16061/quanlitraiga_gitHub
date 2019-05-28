@@ -124,7 +124,7 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
                         <h:form>
-                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{feedMB.deleteFeed()}" />
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{feedMB.deleteFeed()}" onclick="showLoading();" />
                         </h:form>                        
                       </div>
                     </div>
@@ -151,7 +151,10 @@
                     });
                     function showDelModal(){
                         document.getElementById("feed-btnDel").click();
-                    }
+                    }              
+                    function showLoading() {
+                        $('#preloader').removeClass('d-none');
+                    } 
                 </script>
             </ui:define>
         </ui:composition>  

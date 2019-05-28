@@ -144,7 +144,7 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
                         <h:form>
-                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{recipeMB.deleteRecipe()}" />
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{recipeMB.deleteRecipe()}" onclick="showLoading();"/>
                         </h:form>                        
                       </div>
                     </div>
@@ -177,6 +177,9 @@
                     function showModal(){
                         document.getElementById("re-btnDel").click();
                     }
+                    function showLoading() {
+                        $('#preloader').removeClass('d-none');
+                    } 
                 </script>
             </ui:define>
         </ui:composition>  
