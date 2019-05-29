@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="farmer">Nông Hộ Gà</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Thêm Mới</li>
+                        </ol> 
+                        <!--Nọi dung trang của bạn sẽ nằm ở đây-->  
+                        <div class="row">
+                            <div class="col textright">                                
+                                <!--Message Modal-->
+                                <h:panelGroup id="message-containt">
+                                    <h:messages  style="padding-top: 18px" 
+                                                 infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                                 warnStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;"
+                                                 rendered="#{facesContext.messageList.size() gt 0}" />
+                                </h:panelGroup>
+                                 <!--Message Modal-->
+                            </div>
+                        </div> 
+                        <h3>Chọn Nhóm Gà Để Ghép Đàn:</h3>
+                        <div class="table-responsive">
+                            <h:dataTable class="table" id="groupadd-dataTable" value="#{farmerMB.showAllSuitableEggGroup()}" var="item">
+                                <h:column>
+                                    <f:facet name="header">Mã Nhóm Gà</f:facet>
+                                    <h:outputText class="sp-manhomga" value="#{item.manhom}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Mã Đợt Nhập</f:facet>
+                                    <h:outputText class="group-addName" value="#{item.madotnhap.maso}"/>
+                                </h:column>                                                  
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter">Thời Gian Chia Nhóm</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item.thoigianchianhom}" >
+                                            <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </div>                                    
+                                </h:column>
+                                <h:column class="cs-address">
+                                    <f:facet name="header"><div class="textcenter">Số Lượng Ban Đầu</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText value="#{item.soluongbandau}"/> 
+                                    </div>    
+                                </h:column>  
+                                <h:column class="cs-address">
+                                    <f:facet name="header"><div class="textcenter">Số Lượng Hiện Tại</div></f:facet>
+                                    <div class="textcenter">
+                                        <h:outputText class="sp-soluonghientai" value="#{item.soluonghientai}"/> 
+                                    </div>                                    
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter"></div></f:facet>
+                                    <h:form class="textcenter">
+                                        <h:commandButton  value="Chọn" class="btn btn-outline-info group-btnAdd" onclick="showModal()" actionListener="#{farmerMB.selectEggGroup(item)}">
+                                               <f:ajax execute="@form" render="@none" />
+                                        </h:commandButton>
+                                        <button type="button" data-toggle="modal" data-target="#groupAddModal" style="display: none" id="group-btnAdd">Bật Modal</button>   
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>  
+                            <!-- Modal -->
+                            <div class="modal fade" id="groupAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận ghép đàn?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="form-group row">
+                                        <div class="col-12 col-sm-4">
+                                            <p class="small-title pt-1">Mã Nhóm Gà:</p>
+                                        </div>
+                                        <div class="col" >
+                                           <p id="groupAddName-Modal"></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 col-sm-4">
+                                            <p class="small-title pt-1">Số Lượng Gà Hiện Tại:</p>
+                                        </div>
+                                        <div class="col" >
+                                           <p id="groupAddNum-Modal"></p>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <h:form>
+                                        <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{farmerMB.addFarmer()}" />
+                                    </h:form> 
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--end Modal-->
+                        </div>         
+                    </div>
+                </div>
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable chicken supplier
+                    $(document).ready(function() {
+                        $('#groupadd-dataTable').DataTable();
+                    } );  
+                     //Get value in datatable
+                    $(".group-btnAdd").click(function() {
+                        var $manhomga = $(this).closest("tr").find(".sp-manhomga").text();
+                        var $soluonghientai = $(this).closest("tr").find(".sp-soluonghientai").text();
+                        document.getElementById("groupAddName-Modal").innerHTML = $manhomga;       
+                        document.getElementById("groupAddNum-Modal").innerHTML = $soluonghientai;   
+
+                    });
+                    function showModal(){
+                        document.getElementById("group-btnAdd").click();
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>

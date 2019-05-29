@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,4 +30,10 @@ public class HKhayApFacade extends AbstractFacade<HKhayAp> implements HKhayApFac
         super(HKhayAp.class);
     }
     
+    
+    public List<HKhayAp> findAllTrayWithNotDel(){
+        Query query = em.createNamedQuery("HKhayAp.findByXoa");
+        query.setParameter("xoa", false);
+        return query.getResultList();
+    }
 }

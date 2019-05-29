@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="farmer">Nông Hộ Gà</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Đàn Gà Ghép</li>
+                        </ol>
+                        <h3>Danh Sách Đàn Gà Ghép</h3>
+                           
+                        <!-- Datatable -->                       
+                        
+                        <div class="table-responsive">
+                            <h:dataTable class="table" id="sp-dataTable" value="#{farmerMB.showGraftGroupByFarmerID()}" var="item">
+                                <h:column>
+                                    
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Mã Nhóm Gà</f:facet>
+                                    <h:outputText class="sp-maso" value="#{item.GDanGhepPK.manhomga}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Mã Nông Hộ</f:facet>
+                                    <h:outputText class="sp-succhua" value="#{item.GDanGhepPK.manongho}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Thời Gian Ghép</f:facet>
+                                    <h:outputText class="sp-thoigiancapnhat" value="#{item.thoidiemghep}">
+                                        <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </h:column>
+                            </h:dataTable>
+                        </div>                        
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>

@@ -28,5 +28,9 @@ public interface HDotTrungFacadeLocal {
     List<HDotTrung> findRange(int[] range);
 
     int count();
+
+    public List<HDotTrung> findAllEggPeriodWithNotDel();
+
+    public List<GDanGhep> findAllSuitableFarmer();
     
 }

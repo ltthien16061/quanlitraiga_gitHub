@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template = "../templates/common.xhtml"> 
+            <ui:define name="content">  
+                <div id="content-wrapper">
+                    <div class="container-fluid">
+                        <!-- Breadcrumbs-->
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                  <h:link outcome="farmer">Nông Hộ Gà</h:link>         
+                            </li>
+                            <li class="breadcrumb-item active">Danh Sách</li>
+                        </ol>
+                        <h3>Danh Sách Nông Hộ Gà</h3> 
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <h:link outcome="farmer-add" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Thêm Mới </h:link>  
+                            </div>
+                            <div class="col textright">                                
+                                <!--Message Modal-->
+                                <h:panelGroup id="message-containt">
+                                    <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
+                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                                 rendered="#{facesContext.messageList.size() gt 0}" />
+                                </h:panelGroup>
+                                 <!--Message Modal-->
+                            </div>
+                        </div>                       
+                           
+                        <!-- Datatable -->                       
+                        
+                        <div class="table-responsive">
+                            <h:dataTable class="table" id="sp-dataTable" value="#{farmerMB.showAllFarmer()}" var="item">
+                                <h:column>
+                                    
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Mã Nông Hộ</f:facet>
+                                    <h:outputText class="sp-manongho" value="#{item.manongho}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Thời Gian Cập Nhật</f:facet>
+                                    <h:outputText class="sp-thoigiancapnhat" value="#{item.thoigiancapnhat}">
+                                        <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Tình Trạng</f:facet>
+                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 0}" value="Đang nuôi"/>
+                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 1}" value="Đợi thay đàn"/>
+                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 2}" value="Đã thay đàn"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header"><div class="textcenter"></div></f:facet>
+                                    <h:form class="textright">
+                                        <h:commandButton value="Đàn Ghép" class="btn btn-outline-primary ml-2" 
+                                                         action="#{farmerMB.selectFarmer(item, 'farmer-graftGroup')}" >
+                                        </h:commandButton>
+                                        <h:commandButton value="Cập Nhật" class="btn btn-outline-primary ml-2" 
+                                                         action="#{farmerMB.selectFarmer(item, 'farmer-edit')}" >
+                                        </h:commandButton>
+                                        <h:commandButton  value="Xóa" class="btn btn-outline-danger cs-btnDel ml-2" onclick="showModal()" action="#{farmerMB.selectFarmer(item, null)}">
+                                            <f:ajax execute="@form" render="@none" />
+                                        </h:commandButton>
+                                        <button type="button" data-toggle="modal" data-target="#csDelModal" style="display: none" id="cs-btnDel">Xóa</button>    
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>
+                        </div>                        
+                    </div>
+                </div>  
+                <!-- Modal -->
+                <div class="modal fade" id="csDelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Xóa Thông Tin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p class="small-title">ID:</p>
+                        <p id="csName-Modal"></p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
+                        <h:form>
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{farmerMB.deleteFarmer()}" />
+                        </h:form>                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+            </ui:define>
+            <ui:define name="custom-js">                
+                <script>
+                    //Set datatable width
+                    $(document).ready(function() {
+                        $('#sp-dataTable').DataTable( {
+                            "columnDefs": [
+                                {
+                                    "targets": [ 0 ],
+                                    "visible": false,
+                                    "searchable": false
+                                },
+                                {
+                                    "targets": [ 3 ],
+                                    "width": "30%"
+                                }
+                            ]
+                        } );
+                    } );
+                    //Get value in datatable
+                    $(".cs-btnDel").click(function() {
+                        var $maso = $(this).closest("tr").find(".sp-manongho").text();           
+                        document.getElementById("csName-Modal").innerHTML = $maso;
+
+                    });
+                    function showModal(){
+                        document.getElementById("cs-btnDel").click();
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>  
+    </h:body>
+</html>

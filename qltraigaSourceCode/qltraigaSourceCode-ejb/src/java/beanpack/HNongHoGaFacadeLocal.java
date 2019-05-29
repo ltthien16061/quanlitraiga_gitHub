@@ -28,5 +28,13 @@ public interface HNongHoGaFacadeLocal {
     List<HNongHoGa> findRange(int[] range);
 
     int count();
+
+    public List<HNongHoGa> findAllFarmerWithNotDel();
+
+    public List<GNhomGa> findAllSuitableEggGroup();
+
+    public List<GDanGhep> findAllGraftGroupWithNotDel();
+
+    public List<GDanGhep> findGraftGroupByFarmerID(String farmerID);
     
 }

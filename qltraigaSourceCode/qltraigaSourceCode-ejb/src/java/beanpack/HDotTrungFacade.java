@@ -5,9 +5,11 @@
  */
 package beanpack;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,4 +30,18 @@ public class HDotTrungFacade extends AbstractFacade<HDotTrung> implements HDotTr
         super(HDotTrung.class);
     }
     
+    
+    @Override
+    public List<HDotTrung> findAllEggPeriodWithNotDel(){
+        Query query = em.createNamedQuery("HDotTrung.findByXoa");
+        query.setParameter("xoa", false);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<GDanGhep> findAllSuitableFarmer(){
+        String sql = "select * from GDanGhep g where g.thoidiemghep <= dateadd(month, -9, getdate()) and g.xoa = 0";
+        Query query = em.createNativeQuery(sql);
+        return query.getResultList();
+    }
 }
