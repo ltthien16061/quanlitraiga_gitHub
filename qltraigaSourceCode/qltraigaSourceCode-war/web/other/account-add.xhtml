@@ -65,7 +65,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-10 offset-0 offset-sm-4 offset-xl-2">
                                     <button type="button" class="btn btn-outline-success" onclick="checkpass()">Xác Nhận</button>
-                                    <h:commandButton value="Xác Nhận" class="hidden" id="acc-btnAdd" action="#{accountMB.addAccount()}" />
+                                    <h:commandButton value="Xác Nhận" class="hidden" id="acc-btnAdd" action="#{accountMB.addAccount()}" onclick="showLoading();" />
                                     <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3">
                                         <p:ajax update="acc-addF" resetValues="true" />
                                     </h:commandButton>
@@ -95,7 +95,10 @@
                             e.preventDefault();
                             return false;
                         }
-                    }
+                    }                
+                    function showLoading() {
+                        $('#preloader').removeClass('d-none');
+                    } 
                 </script>
             </ui:define>
         </ui:composition>  

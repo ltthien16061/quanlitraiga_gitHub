@@ -51,9 +51,6 @@
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
                                     <h:form class="textright">
-                                        <h:commandButton value="Cập Nhật" class="btn btn-outline-primary ml-2" 
-                                                         action="index" >
-                                        </h:commandButton>
                                         <h:commandButton  value="Xóa" class="btn btn-outline-danger acc-btnDel ml-2" onclick="showModal()"
                                                           actionListener="#{accountMB.getIdForDel(item.maso)}">
                                             <f:ajax execute="@form" render="@none" />
@@ -83,7 +80,7 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
                         <h:form>
-                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{accountMB.deleteAcc()}" />
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{accountMB.deleteAcc()}" onclick="showLoading();"  />
                         </h:form>                        
                       </div>
                     </div>
@@ -106,7 +103,10 @@
                     });
                     function showModal(){
                         document.getElementById("acc-btnDel").click();
-                    }
+                    }                
+                    function showLoading() {
+                        $('#preloader').removeClass('d-none');
+                    } 
                 </script>
             </ui:define>
         </ui:composition>  
