@@ -16,11 +16,11 @@
                         <!-- Breadcrumbs-->
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                  <h:link outcome="farmer">Nông Hộ</h:link>         
+                                  <h:link outcome="farmer">Nông Hộ Gà</h:link>         
                             </li>
                             <li class="breadcrumb-item active">Danh Sách</li>
                         </ol>
-                        <h3>Danh Sách Nông Hộ</h3> 
+                        <h3>Danh Sách Nông Hộ Gà</h3> 
                         <div class="row">
                             <div class="col-md-6 col-12">
                                 <h:link outcome="farmer-add" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Thêm Mới </h:link>  
@@ -29,7 +29,7 @@
                                 <!--Message Modal-->
                                 <h:panelGroup id="message-containt">
                                     <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
-                                                 warnStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
                                                  rendered="#{facesContext.messageList.size() gt 0}" />
                                 </h:panelGroup>
                                  <!--Message Modal-->
@@ -39,30 +39,34 @@
                         <!-- Datatable -->                       
                         
                         <div class="table-responsive">
-                            <h:dataTable class="table" id="sp-dataTable" value="#{farmerMB.showAllIncubatorTray}" var="item">
+                            <h:dataTable class="table" id="sp-dataTable" value="#{farmerMB.showAllFarmer()}" var="item">
                                 <h:column>
                                     
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">ID</f:facet>
-                                    <h:outputText class="sp-maso" value="#{item.manongho}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">Tình Trạng</f:facet>
-                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 1}" value="Tốt"/>
-                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 0}" value="Xấu"/>
+                                    <f:facet name="header">Mã Nông Hộ</f:facet>
+                                    <h:outputText class="sp-manongho" value="#{item.manongho}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Thời Gian Cập Nhật</f:facet>
                                     <h:outputText class="sp-thoigiancapnhat" value="#{item.thoigiancapnhat}">
-                                        <f:convertDateTime pattern="HH:mm:ss dd/MM/yyyy"/>
+                                        <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy"/>
                                     </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Tình Trạng</f:facet>
+                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 0}" value="Đang nuôi"/>
+                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 1}" value="Đợi thay đàn"/>
+                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 2}" value="Đã thay đàn"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
                                     <h:form class="textright">
+                                        <h:commandButton value="Đàn Ghép" class="btn btn-outline-primary ml-2" 
+                                                         action="#{farmerMB.selectFarmer(item, 'farmer-graftGroup')}" >
+                                        </h:commandButton>
                                         <h:commandButton value="Cập Nhật" class="btn btn-outline-primary ml-2" 
-                                                         action="#{farmerMB.selectFarmer(item, "farmer-edit")}" >
+                                                         action="#{farmerMB.selectFarmer(item, 'farmer-edit')}" >
                                         </h:commandButton>
                                         <h:commandButton  value="Xóa" class="btn btn-outline-danger cs-btnDel ml-2" onclick="showModal()" action="#{farmerMB.selectFarmer(item, null)}">
                                             <f:ajax execute="@form" render="@none" />
@@ -120,7 +124,7 @@
                     } );
                     //Get value in datatable
                     $(".cs-btnDel").click(function() {
-                        var $maso = $(this).closest("tr").find(".sp-maso").text();           
+                        var $maso = $(this).closest("tr").find(".sp-manongho").text();           
                         document.getElementById("csName-Modal").innerHTML = $maso;
 
                     });

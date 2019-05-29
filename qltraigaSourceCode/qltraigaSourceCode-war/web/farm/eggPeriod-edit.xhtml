@@ -13,7 +13,7 @@
                         <!-- Breadcrumbs-->
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <h:link outcome="incubatorTray">Nông Hộ Gà</h:link>              
+                                <h:link outcome="eggPeriod">Đợt Trứng</h:link>              
                             </li>
                             <li class="breadcrumb-item active">Cập Nhật</li>
                         </ol>
@@ -28,29 +28,43 @@
                         <!--Nọi dung trang của bạn sẽ nằm ở đây-->      
                         <h:form class="myform" id="cs-addF">
                             <div class="form-group row">
-                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Mã Nông Hộ</label>
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Mã Số</label>
                                 <div class="col-12 col-sm-8 col-md-6 col-xl-6">
-                                    <h:outputText class="form-control" value="#{farmerMB.selectedFarmer.manongho}"/>
+                                    <h:outputText class="form-control" value="#{eggPeriodMB.selectedEggPeriod.maso}"/>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Tình Trạng</label>
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Mã Nông Hộ</label>
                                 <div class="col-12 col-sm-8 col-md-6 col-xl-6">
                                     <h:selectOneMenu class="form-control" 
-                                                     value="#{farmerMB.selectedFarmer.tinhtrang}" 
-                                                     id="tinhtrang">
-                                        <f:selectItem itemValue="0" itemLabel="Đang nuôi" />
-                                        <f:selectItem itemValue="1" itemLabel="Đợi thay đàn"/>
-                                        <f:selectItem itemValue="2" itemLabel="Đã thay đàn"/>
+                                                     value="#{eggPeriodMB.manongho}" 
+                                                     id="manongho">
+                                        <f:selectItems value="#{eggPeriodMB.showAllSuitableFarmer()}"
+                                                       var="item"
+                                                       itemValue="#{item[1]}" 
+                                                       itemLabel="#{item[1]}"/>
                                     </h:selectOneMenu>
                                 </div>
-                                <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
-                                    <h:message for="tinhtrang"  id="tinhtrangValidate" style="color: red"/>
-                                </small>                             
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-4 col-xl-2 col-form-label">Số Lượng</label>
+                                <div class="col-12 col-sm-8 col-md-6 col-xl-6">
+                                    <h:inputText class="form-control" 
+                                                 value="#{eggPeriodMB.selectedEggPeriod.soluong}"
+                                                 id="soluong"
+                                                 required="true"
+                                                 requiredMessage="Nội dung không được bỏ trống."
+                                                 validator="#{settingMB.validateNum}">
+                                        <f:ajax event="blur" execute="cs-addF" render="soluongValidate"/>
+                                    </h:inputText>
+                                    <small class="form-text text-muted col-sm-10 offset-0 offset-sm-4 offset-xl-2 ">
+                                        <h:message for="soluong"  id="soluongValidate" style="color: red"/>
+                                    </small>
+                                </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-10 offset-0 offset-sm-4 offset-xl-2">
-                                    <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{farmerMB.editFarmer()}" />
+                                    <h:commandButton value="Xác Nhận" class="btn btn-outline-success" action="#{eggPeriodMB.editEggPeriod()}" />
                                     <h:commandButton value="Đặt Lại" class="btn btn-outline-dark ml-3">
                                         <p:ajax update="cs-addF" resetValues="true" />
                                     </h:commandButton>

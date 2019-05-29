@@ -37,5 +37,24 @@ public class HNongHoGaFacade extends AbstractFacade<HNongHoGa> implements HNongH
         return query.getResultList();
     }
     
+    @Override
+    public List<GDanGhep> findAllGraftGroupWithNotDel(){
+        Query query = em.createNamedQuery("GDanGhep.findByXoa");
+        query.setParameter("xoa", false);
+        return query.getResultList();
+    }
     
+    @Override
+    public List<GDanGhep> findGraftGroupByFarmerID(String farmerID){
+        Query query = em.createNamedQuery("GDanGhep.findByManongho");
+        query.setParameter("manongho", farmerID);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<GNhomGa> findAllSuitableEggGroup(){
+        String sql = "select * from [GNhomGa] where thoigianchianhom <= dateadd(month, -6, getdate())";
+        Query query = em.createNativeQuery(sql, GNhomGa.class);
+        return query.getResultList();
+    }
 }

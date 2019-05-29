@@ -16,20 +16,20 @@
                         <!-- Breadcrumbs-->
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                  <h:link outcome="incubatorTray">Khay Ấp</h:link>         
+                                  <h:link outcome="eggPeriod">Đợt Trứng</h:link>         
                             </li>
                             <li class="breadcrumb-item active">Danh Sách</li>
                         </ol>
-                        <h3>Danh Sách Khay Ấp</h3> 
+                        <h3>Danh Sách Đợt Trứng</h3> 
                         <div class="row">
                             <div class="col-md-6 col-12">
-                                <h:link outcome="incubatorTray-add" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Thêm Mới </h:link>  
+                                <h:link outcome="eggPeriod-add" styleClass="btn btn-outline-success mb-3"><i class="fas fa-plus"></i> Thêm Mới </h:link>  
                             </div>
                             <div class="col textright">                                
                                 <!--Message Modal-->
                                 <h:panelGroup id="message-containt">
                                     <h:messages  infoStyle="color: darkgreen;list-style-type: none;background-color: #D4EDDA;text-align: center;padding: 10px;" 
-                                                 warnStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
+                                                 errorStyle="color:darkred;list-style-type: none;background-color: #F8D7DA;text-align: center;padding: 10px;" 
                                                  rendered="#{facesContext.messageList.size() gt 0}" />
                                 </h:panelGroup>
                                  <!--Message Modal-->
@@ -39,36 +39,41 @@
                         <!-- Datatable -->                       
                         
                         <div class="table-responsive">
-                            <h:dataTable class="table" id="sp-dataTable" value="#{incubatorTrayMB.showAllIncubatorTray()}" var="item">
+                            <h:dataTable class="table" id="sp-dataTable" value="#{eggPeriodMB.showAllEggPeriod()}" var="item">
                                 <h:column>
                                     
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">ID</f:facet>
+                                    <f:facet name="header">Mã Số</f:facet>
                                     <h:outputText class="sp-maso" value="#{item.maso}"/>
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Sức Chứa(Trứng)</f:facet>
-                                    <h:outputText class="sp-succhua" value="#{item.succhua}"/>
+                                    <f:facet name="header">Mã Nông Hộ</f:facet>
+                                    <h:outputText class="sp-manongho" value="#{item.manongho.manongho}"/>
                                 </h:column>
                                 <h:column>
-                                    <f:facet name="header">Tình Trạng</f:facet>
-                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 1}" value="Đang ấp trứng"/>
-                                    <h:outputText class="sp-tinhtrang" rendered="#{item.tinhtrang eq 0}" value="Chờ ấp trứng"/>
+                                    <f:facet name="header">Thời Gian Thu Hoạch</f:facet>
+                                    <h:outputText class="sp-thoigianthuhoach" value="#{item.thoidiemthuhoach}">
+                                        <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy"/>
+                                    </h:outputText>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">Thời Gian Cập Nhật</f:facet>
                                     <h:outputText class="sp-thoigiancapnhat" value="#{item.thoigiancapnhat}">
-                                        <f:convertDateTime pattern="HH:mm:ss dd/MM/yyyy"/>
+                                        <f:convertDateTime pattern="HH:mm:ss - dd/MM/yyyy"/>
                                     </h:outputText>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">Số Lượng</f:facet>
+                                    <h:outputText class="sp-soluong" value="#{item.soluong}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header"><div class="textcenter"></div></f:facet>
                                     <h:form class="textright">
                                         <h:commandButton value="Cập Nhật" class="btn btn-outline-primary ml-2" 
-                                                         action="#{incubatorTrayMB.selectTray(item, 'incubatorTray-edit')}" >
+                                                         action="#{eggPeriodMB.selectEggPeriod(item, 'eggPeriod-edit')}" >
                                         </h:commandButton>
-                                        <h:commandButton  value="Xóa" class="btn btn-outline-danger cs-btnDel ml-2" onclick="showModal()" action="#{incubatorTrayMB.selectTray(item, null)}">
+                                        <h:commandButton  value="Xóa" class="btn btn-outline-danger cs-btnDel ml-2" onclick="showModal()" action="#{eggPeriodMB.selectEggPeriod(item, null)}">
                                             <f:ajax execute="@form" render="@none" />
                                         </h:commandButton>
                                         <button type="button" data-toggle="modal" data-target="#csDelModal" style="display: none" id="cs-btnDel">Xóa</button>    
@@ -95,7 +100,7 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Đóng</button>    
                         <h:form>
-                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{incubatorTrayMB.deleteIncubatorTray()}" />
+                            <h:commandButton value="Xác Nhận" class="btn btn-outline-danger" action="#{eggPeriodMB.deleteEggPeriod()}" />
                         </h:form>                        
                       </div>
                     </div>

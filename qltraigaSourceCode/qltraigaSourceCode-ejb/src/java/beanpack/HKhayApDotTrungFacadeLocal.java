@@ -28,5 +28,11 @@ public interface HKhayApDotTrungFacadeLocal {
     List<HKhayApDotTrung> findRange(int[] range);
 
     int count();
+
+    public List<HKhayApDotTrung> findAllHatchWithNotDel();
+
+    public List<HKhayAp> findAllSuitableTray();
+
+    public List<HDotTrung> findAllSuitableEggPeriod();
     
 }

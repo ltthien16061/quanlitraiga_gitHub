@@ -44,7 +44,7 @@ public class HNongHoGa implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "manongho")
     private String manongho;
